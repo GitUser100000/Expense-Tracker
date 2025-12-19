@@ -1,9 +1,8 @@
 import { useReducer, useEffect, type ReactNode, useRef } from "react"
-import { type User, type AppSettingsAction, type AppSettingState } from "./types"
+import { type AppSettingsAction, type AppSettingState } from "./types"
 import { AppContext } from "./AppContext";
 
 const initialAppSettings: AppSettingState = {
-  user: null,
   theme: "light",
   loading: false,
   error: null
@@ -11,18 +10,6 @@ const initialAppSettings: AppSettingState = {
 
 function appSettingsReducer(state: AppSettingState, action: AppSettingsAction) {
   switch (action.type) {
-    case "LOGIN": {
-      return {
-        ...state,
-        user: action.payload
-      };
-    }
-    case "LOGOUT": {
-      return {
-        ...state,
-        user: null
-      };
-    }
     case "SET_THEME": {
       return {
         ...state,
@@ -51,14 +38,6 @@ export default function AppProvider({ children }: { children: ReactNode}) {
   const [ appSettings, dispatchAppSettings] = useReducer(appSettingsReducer, initialAppSettings);
   const modal = useRef<HTMLDialogElement | null>(null); 
 
-  const loginUser = (user: User) => {
-    dispatchAppSettings({ type: "LOGIN", payload: user });
-  }
-
-  const logoutUser = () => {
-    dispatchAppSettings({ type: "LOGOUT" });
-  }
-
   const setTheme = (theme: "light" | "dark") => {
     dispatchAppSettings({ type: "SET_THEME", payload: theme });
   }
@@ -85,8 +64,6 @@ export default function AppProvider({ children }: { children: ReactNode}) {
 
   const value = {
     state: appSettings,
-    loginUser,
-    logoutUser,
     setTheme,
     setLoading,
     setError

@@ -1,7 +1,6 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
 import { useAppContext } from './context/AppContext';
-import { useLocalStorage } from './hooks/useLocalStorage';
 
 function App() {
   const appSettings = useAppContext();
