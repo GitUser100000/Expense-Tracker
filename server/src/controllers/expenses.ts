@@ -1,0 +1,116 @@
+import { prisma } from "../database/prismaClient";
+import { Request, Response } from "express";
+
+export async function getExpenses(req: Request, res: Response) {
+  try {
+    // const { id } = req.user; 
+    const userId = req.user!.id; 
+    const expenses = await prisma.expense.findMany({
+      where: {
+        userId: userId
+      },
+      orderBy: [
+        {
+          nextChargeDate: 'desc'
+        }
+      ]
+    })
+    return res.status(200).json(expenses); 
+  } catch (err) {
+    return res.status(500).json({ error: "there was an internal server error"}); 
+  }
+}
+
+export async function getExpenseById(req: Request, res: Response) {
+  try {
+    // const { id } = req.user; 
+    const id = Number(req.params.id); 
+    const userId = req.user!.id;
+    if (!id) return res.status(404).json({ error: `couldn't find expense with id: ${+id}`})
+    const expenses = await prisma.expense.findUnique({
+      where: {
+        id: id,
+        userId
+      }      
+    })
+    if (expenses === null) return res.status(401).json({ error: `could not find expense with: ${id}`});
+    return res.status(200).json(expenses); 
+  } catch (err) {
+    return res.status(500).json({ error: "there was an internal server error"}); 
+  }
+}
+
+export async function createExpenseByUserId(req: Request, res: Response) {
+  try {
+    const user = req.user; 
+    const newExpense = req.body; 
+    if (
+      newExpense.name === undefined ||
+      newExpense.price === undefined ||
+      newExpense.occurance === undefined ||
+      newExpense.category === undefined ||
+      newExpense.nextChargeDate === undefined ||
+      newExpense.paymentType === undefined
+    ) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const expenses = await prisma.expense.create({
+      data: {
+        ...newExpense,
+        userId: user.id
+      }
+    })
+    return res.status(200).json(expenses); 
+  } catch (err) {
+    return res.status(500).json({ error: "there was an internal server error"}); 
+  }
+}
+
+export async function editExpenseById(req: Request, res: Response) {
+  try {
+    const id = Number(req.params.id); 
+    const userId = req.user!.id; 
+    if (!id) return res.status(404).json({ error: `no expense with id: ${id}`});  
+    const newExpense = req.body; 
+
+    const data: any = {}; 
+    if (newExpense.name !== undefined) data.name = newExpense.name;
+    if (newExpense.price !== undefined) data.price = newExpense.price;
+    if (newExpense.occurance !== undefined) data.occurance = newExpense.occurance;
+    if (newExpense.category !== undefined) data.category = newExpense.category;
+    if (newExpense.nextChargeDate !== undefined) data.nextChargeDate = newExpense.nextChargeDate;
+    if (newExpense.paymentType !== undefined) data.paymentType = newExpense.paymentType;
+    if (newExpense.url !== undefined) data.url = newExpense.url;
+
+    const expenses = await prisma.expense.update({
+      where: {
+        id,
+        userId
+      },
+      data: data
+    })
+    return res.status(200).json(expenses); 
+  } catch (err) {
+    return res.status(500).json({ error: "there was an internal server error"}); 
+  }
+}
+
+export async function deleteExpenseById(req: Request, res: Response) {
+  try {
+    const id = Number(req.params.id); 
+    const userId = req.user!.id; 
+    if (!id) return res.status(404).json({ error: `no expense with id: ${id}`});  
+
+    const expenses = await prisma.expense.delete({
+      where: {
+        id,
+        userId
+      }
+    })
+    return res.status(200).json(expenses); 
+  } catch (err) {
+    return res.status(500).json({ error: "there was an internal server error"}); 
+  }
+}
+

@@ -13,7 +13,7 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
+  id String @id 
   email   String   @unique
   name    String?
   theme Theme @default(light)
@@ -31,7 +31,7 @@ model Expense {
   nextChargeDate DateTime
   paymentType PaymentType
   url String?
-  userId Int
+  userId String
   user User @relation(fields: [userId], references: [id])
 
   @@index([userId])
@@ -45,7 +45,7 @@ model WatchlistItem {
   previous Decimal
   current Decimal
   markup Decimal
-  userId Int
+  userId String
   user User @relation(fields: [userId], references: [id])
 
   @@index([userId])
