@@ -26,15 +26,15 @@ export async function getExpenseById(req: Request, res: Response) {
     // const { id } = req.user; 
     const id = Number(req.params.id); 
     const userId = req.user!.id;
-    if (!id) return res.status(404).json({ error: `couldn't find expense with id: ${+id}`})
-    const expenses = await prisma.expense.findUnique({
+    if (!id) return res.status(404).json({ error: `no id supplied`})
+    const expense = await prisma.expense.findUnique({
       where: {
         id: id,
         userId
       }      
     })
-    if (expenses === null) return res.status(401).json({ error: `could not find expense with: ${id}`});
-    return res.status(200).json(expenses); 
+    if (expense === null) return res.status(401).json({ error: `could not find expense with: ${id}`});
+    return res.status(200).json(expense); 
   } catch (err) {
     return res.status(500).json({ error: "there was an internal server error"}); 
   }
@@ -55,13 +55,13 @@ export async function createExpenseByUserId(req: Request, res: Response) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    const expenses = await prisma.expense.create({
+    const expense = await prisma.expense.create({
       data: {
         ...newExpense,
         userId: user.id
       }
     })
-    return res.status(200).json(expenses); 
+    return res.status(200).json(expense); 
   } catch (err) {
     return res.status(500).json({ error: "there was an internal server error"}); 
   }
@@ -83,14 +83,14 @@ export async function editExpenseById(req: Request, res: Response) {
     if (newExpense.paymentType !== undefined) data.paymentType = newExpense.paymentType;
     if (newExpense.url !== undefined) data.url = newExpense.url;
 
-    const expenses = await prisma.expense.update({
+    const expense = await prisma.expense.update({
       where: {
         id,
         userId
       },
       data: data
     })
-    return res.status(200).json(expenses); 
+    return res.status(200).json(expense); 
   } catch (err) {
     return res.status(500).json({ error: "there was an internal server error"}); 
   }
@@ -102,13 +102,13 @@ export async function deleteExpenseById(req: Request, res: Response) {
     const userId = req.user!.id; 
     if (!id) return res.status(404).json({ error: `no expense with id: ${id}`});  
 
-    const expenses = await prisma.expense.delete({
+    const expense = await prisma.expense.delete({
       where: {
         id,
         userId
       }
     })
-    return res.status(200).json(expenses); 
+    return res.status(200).json(expense); 
   } catch (err) {
     return res.status(500).json({ error: "there was an internal server error"}); 
   }
