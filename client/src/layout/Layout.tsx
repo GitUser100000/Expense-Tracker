@@ -1,20 +1,17 @@
-import { SlidersHorizontal } from 'lucide-react';
+import { NavBar } from '@/components/NavBar';
+import { Toaster } from 'sonner';
 
-export default function Layout() {
+export default function Layout({ children }: {children: React.ReactNode}) {
   return (
     <>
       <header>
         <h1>Expenses App</h1>
       </header>
-      <nav>
-        <ul>
-          <li><button>Metrics</button></li>
-          <li><button>Expenses</button></li>
-          <li><button>Watchlist</button></li>
-          <li><button>Settings</button></li>
-        </ul>
-      </nav>
-      <button><SlidersHorizontal /></button>
+      <NavBar />
+      <main>
+        { children }
+        <Toaster />
+      </main>
     </>
   )
 }

@@ -19,5 +19,16 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // turn common yellows into errors
+      'no-unused-vars': 'error',
+      '@typescript-eslint/no-unused-vars': 'error',
+
+      'react-hooks/exhaustive-deps': 'error',
+
+      // optional cleanups
+      'no-console': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   },
 ])

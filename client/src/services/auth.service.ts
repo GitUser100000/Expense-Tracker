@@ -5,8 +5,13 @@ export async function createNewUser(email: string, password: string) {
     email,
     password
   });
-
   return { data, error }
+}
+
+export async function signInUser(email: string, password: string) {
+  const { data, error } = await supabase.auth.signInWithPassword({email, password});
+  if (error) throw error;
+  return data.user; 
 }
 
 export async function signOutUser() {
@@ -49,5 +54,11 @@ export async function triggerPasswordReset(email: string) {
     redirectTo: 'https://example.com/update-password',
   })
   if (error) throw error; 
+  return data; 
+}
+
+export async function deleteUser(service_role: string) {
+  const { data, error } = await supabase.auth.admin.deleteUser(service_role);
+  if (error) throw error;
   return data; 
 }
