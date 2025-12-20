@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUserSettings } from "../controllers/user";
+import { getUserSettings, editUserSettings, deleteUserSettings } from "../controllers/userController";
 
 export const userRouter = Router(); 
 
@@ -10,8 +10,8 @@ userRouter.get('/users', getUserSettings);
 // userRouter.post('/users');
 
 // edit user data (email handled through supabase auth client) -- using upsert
-userRouter.put('/users');
+userRouter.put('/users', editUserSettings);
 
 // delete user data (req.user.id from auth middleware)
-userRouter.delete('/users');
+userRouter.delete('/users', deleteUserSettings);
 
