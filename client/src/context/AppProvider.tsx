@@ -1,4 +1,4 @@
-import { useReducer, useEffect, type ReactNode, useRef } from "react"
+import { useReducer, type ReactNode } from "react"
 import { type AppSettingsAction, type AppSettingState } from "./types"
 import { AppContext } from "./AppContext";
 
@@ -36,7 +36,6 @@ function appSettingsReducer(state: AppSettingState, action: AppSettingsAction) {
 
 export default function AppProvider({ children }: { children: ReactNode}) {
   const [ appSettings, dispatchAppSettings] = useReducer(appSettingsReducer, initialAppSettings);
-  const modal = useRef<HTMLDialogElement | null>(null); 
 
   const setTheme = (theme: "light" | "dark") => {
     dispatchAppSettings({ type: "SET_THEME", payload: theme });
@@ -49,19 +48,7 @@ export default function AppProvider({ children }: { children: ReactNode}) {
   const setError = (error: string | null) => {
     dispatchAppSettings({ type: "SET_ERROR", payload: error });
   }
-
-  useEffect(() => {
-    if (!modal.current) return; 
-    if (appSettings.loading) {
-      modal.current.showModal(); 
-    } else {
-      modal.current.close(); 
-    }
-  }, [appSettings.loading]);
-
-  // refactor error component later
-  const output = appSettings.error ? <p>{appSettings.error}</p> : children; 
-
+  
   const value = {
     state: appSettings,
     setTheme,
@@ -72,8 +59,7 @@ export default function AppProvider({ children }: { children: ReactNode}) {
   return (
     <AppContext.Provider value={value}>
       {/* refactor this in a seperate component later */}
-      <dialog ref={modal}>Loading...</dialog>
-      { output }
+      { children }
     </AppContext.Provider>
   )
 }
