@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email   String   @unique
+  name    String?
+  theme Theme @default(light)
+  currency String @default("AUD")
+  expenses Expense[]
+  watchlist WatchlistItem[]
+}
+
+model Expense {
+  id Int @id @default(autoincrement())
+  name String
+  price Decimal
+  occurance Cadence
+  category Category
+  nextChargeDate DateTime
+  paymentType PaymentType
+  url String?
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([nextChargeDate])
+  @@index([category])
+}
+
+model WatchlistItem {
+  id Int @id @default(autoincrement())
+  name String
+  previous Decimal
+  current Decimal
+  markup Decimal
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+enum Theme {
+  light
+  dark
+}
+
+enum Cadence {
+  ONE_TIME
+  DAILY
+  WEEKLY
+  FORTNIGHTLY
+  MONTHLY
+  YEARLY
+}
+
+enum Category {
+  ENTERTAINMENT
+  FOOD
+  TRANSPORT
+  RENT
+  UTILITIES
+  OTHER
+}
+
+enum PaymentType {
+  CREDIT_CARD
+  DEBIT_CARD
+  CASH
+}
+

@@ -1,9 +1,10 @@
 import { useReducer, type ReactNode } from "react"
-import { type AppSettingsAction, type AppSettingState } from "./types"
+import { type AppSettingsAction, type AppSettingState, type Currency } from "./types"
 import { AppContext } from "./AppContext";
 
 const initialAppSettings: AppSettingState = {
   theme: "light",
+  currency: "AUD",
   loading: false,
   error: null
 }
@@ -14,6 +15,12 @@ function appSettingsReducer(state: AppSettingState, action: AppSettingsAction) {
       return {
         ...state,
         theme: action.payload
+      }
+    }
+    case "SET_CURRENCY": {
+      return {
+        ...state,
+        currency: action.payload
       }
     }
     case "SET_LOADING": {
@@ -41,6 +48,10 @@ export default function AppProvider({ children }: { children: ReactNode}) {
     dispatchAppSettings({ type: "SET_THEME", payload: theme });
   }
 
+  const setCurrency = (currency: Currency) => {
+    dispatchAppSettings({ type: "SET_CURRENCY", payload: currency });
+  }
+
   const setLoading = (isLoading: boolean) => {
     dispatchAppSettings({ type: "SET_LOADING", payload: isLoading });
   }
@@ -52,6 +63,7 @@ export default function AppProvider({ children }: { children: ReactNode}) {
   const value = {
     state: appSettings,
     setTheme,
+    setCurrency,
     setLoading,
     setError
   }
