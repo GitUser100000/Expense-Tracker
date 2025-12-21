@@ -1,38 +1,38 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { toast } from "sonner"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { signInUser } from "@/services/auth.service"
-import { useNavigate } from "react-router-dom"
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { signInUser } from "@/services/auth.service";
+import { useNavigate } from "react-router-dom";
 
-export function LoginForm({
+export default function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const navigate = useNavigate(); 
-  // handle submit 
+  const navigate = useNavigate();
+  // handle submit
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault(); 
-    const form = e.currentTarget; 
+    e.preventDefault();
+    const form = e.currentTarget;
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
-    const password = formData.get("password") as string;  
+    const password = formData.get("password") as string;
     try {
-      await signInUser(email, password); 
-      navigate('/metrics')
+      await signInUser(email, password);
+      navigate("/metrics");
     } catch {
       toast("A login error has occured", {
         description: "please ensure your credentials are correct",
@@ -40,8 +40,8 @@ export function LoginForm({
           label: "close",
           onClick: () => console.log("close"),
         },
-      })
-      form.reset(); 
+      });
+      form.reset();
     }
   }
   return (
@@ -49,9 +49,7 @@ export function LoginForm({
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome</CardTitle>
-          <CardDescription>
-            Login to the Expense Tracker
-          </CardDescription>
+          <CardDescription>Login to the Expense Tracker</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -76,7 +74,7 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required name="password"/>
+                <Input id="password" type="password" required name="password" />
               </Field>
               <Field>
                 <Button type="submit">Login</Button>
@@ -89,5 +87,5 @@ export function LoginForm({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

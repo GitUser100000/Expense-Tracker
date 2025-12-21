@@ -1,6 +1,6 @@
 import { useAppContext } from "./context/AppContext";
 import { useTheme } from "./hooks/useTheme";
-import RouteProvider from "./routes/routeProvider";
+import RouteProvider from "./routes/RouteProvider";
 
 export default function App() {
   const appSettings = useAppContext();
