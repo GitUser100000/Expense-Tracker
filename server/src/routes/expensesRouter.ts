@@ -3,11 +3,11 @@ import { getExpenses, getExpenseById, createExpenseByUserId, editExpenseById, de
 
 export const expenseRouter = Router(); 
 
-// get expense by id
-expenseRouter.get('/expenses/:id', getExpenses);
-
 // get all expenses by user id (req.user.id from auth middleware)
-expenseRouter.get('/expenses', getExpenseById)
+expenseRouter.get('/expenses', getExpenses)
+
+// get expense by id
+expenseRouter.get('/expenses/:id', getExpenseById);
 
 // create expense (req.user.id from auth middleware)
 expenseRouter.post('/expenses', createExpenseByUserId);

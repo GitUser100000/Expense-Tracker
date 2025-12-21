@@ -3,11 +3,11 @@ import { getWatchlist, getWatchlistItemById, createWatchlistItemByUserId, editWa
 
 export const watchlistRouter = Router(); 
 
-// get watchlist item by id
-watchlistRouter.get('/watchlist/:id', getWatchlist);
-
 // get watchlist by user id (req.user.id from auth middleware)
-watchlistRouter.get('/watchlist', getWatchlistItemById)
+watchlistRouter.get('/watchlist', getWatchlist)
+
+// get watchlist item by id
+watchlistRouter.get('/watchlist/:id', getWatchlistItemById);
 
 // create watchlist item (req.user.id from auth middleware)
 watchlistRouter.post('/watchlist', createWatchlistItemByUserId);
