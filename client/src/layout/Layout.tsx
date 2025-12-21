@@ -1,7 +1,8 @@
-import { NavBar } from '@/components/NavBar';
-import { Toaster } from 'sonner';
+import { NavBar } from "@/components/NavBar";
+import { Toaster } from "sonner";
+import { Outlet } from "react-router-dom";
 
-export default function Layout({ children }: {children: React.ReactNode}) {
+export default function Layout() {
   return (
     <>
       <header>
@@ -9,9 +10,9 @@ export default function Layout({ children }: {children: React.ReactNode}) {
       </header>
       <NavBar />
       <main>
-        { children }
+        <Outlet />
         <Toaster />
       </main>
     </>
-  )
+  );
 }
