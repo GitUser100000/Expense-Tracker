@@ -22,22 +22,25 @@ export async function getUserSettings(req: Request, res: Response) {
 export async function editUserSettings(req: Request, res: Response) {
   try {
     // const { id } = req.user; 
-    const user = req.user; 
+    const { id, email } = req.user; 
     const newUserSettings = req.body; 
     if (!newUserSettings) return res.status(400).json({ error: "no request body"});
 
     const data : any = {}; 
-    
-    data.id = user.id;
-    data.email = user.email; 
 
     if (newUserSettings.name !== undefined) data.name = newUserSettings.name;
     if (newUserSettings.theme !== undefined) data.theme = newUserSettings.theme; 
     if (newUserSettings.currency !== undefined) data.currency = newUserSettings.currency; 
 
+    if (Object.keys(newUserSettings).length === 0) return res.status(400).json({ error: "no valid fields provided" })
+
     const userSettings = await prisma.user.upsert({
-      where: { id: data.id },
-      create: data,
+      where: { id },
+      create: {
+        id,
+        email,
+        ...newUserSettings
+      },
       update: data
     })
 

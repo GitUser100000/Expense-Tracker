@@ -5,78 +5,77 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+    provider = "postgresql"
 }
 
 model User {
-  id String @id 
-  email   String   @unique
-  name    String?
-  theme Theme @default(light)
-  currency String @default("AUD")
-  expenses Expense[]
-  watchlist WatchlistItem[]
+    id String @id 
+      email   String   @unique
+        name    String?
+          theme Theme @default(light)
+            currency String @default("AUD")
+              expenses Expense[]
+                watchlist WatchlistItem[]
 }
 
 model Expense {
-  id Int @id @default(autoincrement())
-  name String
-  price Decimal
-  occurance Cadence
-  category Category
-  nextChargeDate DateTime
-  paymentType PaymentType
-  url String?
-  userId String
-  user User @relation(fields: [userId], references: [id])
+    id Int @id @default(autoincrement())
+      name String
+        price Decimal
+          occurance Cadence
+            category Category
+              nextChargeDate DateTime
+                paymentType PaymentType
+                  url String?
+                    userId String
+                      user User @relation(fields: [userId], references: [id])
 
-  @@index([userId])
-  @@index([nextChargeDate])
-  @@index([category])
+                        @@index([userId])
+                          @@index([nextChargeDate])
+                            @@index([category])
 }
 
 model WatchlistItem {
-  id Int @id @default(autoincrement())
-  name String
-  previous Decimal
-  current Decimal
-  markup Decimal
-  userId String
-  user User @relation(fields: [userId], references: [id])
+    id Int @id @default(autoincrement())
+      name String
+        previous Decimal
+          current Decimal
+            markup Decimal
+              userId String
+                user User @relation(fields: [userId], references: [id])
 
-  @@index([userId])
+                  @@index([userId])
 }
 
 enum Theme {
-  light
-  dark
+    light
+      dark
 }
 
 enum Cadence {
-  ONE_TIME
-  DAILY
-  WEEKLY
-  FORTNIGHTLY
-  MONTHLY
-  YEARLY
+    ONE_TIME
+      DAILY
+        WEEKLY
+          FORTNIGHTLY
+            MONTHLY
+              YEARLY
 }
 
 enum Category {
-  ENTERTAINMENT
-  FOOD
-  TRANSPORT
-  RENT
-  UTILITIES
-  OTHER
+    ENTERTAINMENT
+      FOOD
+        TRANSPORT
+          RENT
+            UTILITIES
+              OTHER
 }
 
 enum PaymentType {
-  CREDIT_CARD
-  DEBIT_CARD
-  CASH
+    CREDIT_CARD
+      DEBIT_CARD
+        CASH
 }
-
