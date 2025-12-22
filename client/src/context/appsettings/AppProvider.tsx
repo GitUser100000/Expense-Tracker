@@ -68,7 +68,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const value = {
-    state: appSettings,
+    appSettings,
     setTheme,
     setCurrency,
     setLoading,

@@ -13,11 +13,12 @@ export default function App() {
   useEffect(() => {
     if (loading) {
       setLoading(true);
-      setError(false);
+      setError(null);
       return;
     }
     if (error) {
-      setError(error);
+      if (error instanceof Error) setError(error.message);
+      else setError("Something is cooked");
       setLoading(false);
       return;
     }
@@ -28,7 +29,7 @@ export default function App() {
     const { currency } = data;
     setCurrency(currency);
     setLoading(false);
-    setError(false);
+    setError(null);
   }, [data, loading, error]);
 
   useTheme(appSettings.theme);
