@@ -1,9 +1,22 @@
 export type Currency = "AUD" | "USD" | "EUR";
 export type Theme = "light" | "dark"
 
+export type DateCadence = 
+| "DAILY"
+| "WEEKLY"
+| "MONTHLY"
+| "YEARLY"
+
+export type DateRange = {
+  cadence: DateCadence;
+  startDate: Date;
+  endDate?: Date
+}
+
 export type AppSettingState = {
   theme: Theme
   currency: Currency,
+  dateRange: DateRange,
   loading: boolean,
   error: string | null
 }
@@ -11,6 +24,10 @@ export type AppSettingState = {
 export type AppSettingsAction =
 | { type: "SET_THEME"; payload: Theme; }
 | { type: "SET_CURRENCY"; payload: Currency; }
+| { type: "SET_DATE_RANGE"; payload: {
+    cadence: DateCadence,
+    startDate: Date,
+}; }
 | { type: "SET_LOADING"; payload: boolean; }
 | { type: "SET_ERROR"; payload: string | null; }
 
@@ -32,7 +49,6 @@ export type Cadence =
 | "ONE_TIME"
 | "DAILY"
 | "WEEKLY"
-| "FORTNIGHTLY"
 | "MONTHLY"
 | "YEARLY"
 

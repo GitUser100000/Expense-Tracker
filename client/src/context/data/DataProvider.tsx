@@ -61,7 +61,7 @@ function dataReducer(state: DataContextState, action: DataAction) {
   }
 }
 
-export default function DataContextProvider({
+export default function DataProvider({
   children,
 }: {
   children: React.ReactNode;

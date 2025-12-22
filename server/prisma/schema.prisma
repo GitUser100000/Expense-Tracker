@@ -60,7 +60,6 @@ enum Cadence {
     ONE_TIME
       DAILY
         WEEKLY
-          FORTNIGHTLY
             MONTHLY
               YEARLY
 }
