@@ -1,15 +1,30 @@
 import axios from "axios";
 import { BASE_URL, getRequestHeader } from "./config"
-import type { Expesne } from "@/models/models";
+import type { Expense } from "@/models/models";
 
 const ENDPOINT = `${BASE_URL}/expenses`;
 
-export const getUserExpenses = async() => axios.get(ENDPOINT, await getRequestHeader());
+export async function getUserExpenses(): Promise<Expense> {
+  const { data } = await axios.get(ENDPOINT, await getRequestHeader());
+  return data; 
+}
 
-export const getExpenseById = async(id: number) => axios.put(`${ENDPOINT}/${id}`, await getRequestHeader());
+export async function getExpenseById(id: number): Promise<Expense> {
+  const { data } = await axios.get(`${ENDPOINT}/${id}`, await getRequestHeader());
+  return data; 
+}
 
-export const createExpense = async(body: Expesne) => axios.post(`${ENDPOINT}`, body, await getRequestHeader());
+export async function createExpense(body: Expense): Promise<Expense> {
+  const { data } = await axios.post(`${ENDPOINT}`, body, await getRequestHeader());
+  return data; 
+}
 
-export const editExpenseById = async(id: number, body: Expesne) => axios.put(`${ENDPOINT}/${id}`, body, await getRequestHeader());
+export async function editExpenseById(id: number, body: Expense): Promise<Expense> {
+  const { data } = await axios.put(`${ENDPOINT}/${id}`, body, await getRequestHeader());
+  return data; 
+}
 
-export const deleteExpenseById = async(id: number) => axios.delete(`${ENDPOINT}/${id}`, await getRequestHeader());
+export async function deleteExpenseById(id: number): Promise<Expense> {
+  const { data } = await axios.delete(`${ENDPOINT}/${id}`, await getRequestHeader());
+  return data; 
+}

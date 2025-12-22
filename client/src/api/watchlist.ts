@@ -1,15 +1,30 @@
 import axios from "axios";
 import { BASE_URL, getRequestHeader } from "./config"
-import type { Expesne } from "@/models/models";
+import type { WatchlistItem } from "@/models/models";
 
 const ENDPOINT = `${BASE_URL}/watchlist`;
 
-export const getUserExpenses = async() => axios.get(ENDPOINT, await getRequestHeader());
+export async function getUserWatchlist(): Promise<WatchlistItem> {
+  const { data } = await axios.get(ENDPOINT, await getRequestHeader());
+  return data; 
+}
 
-export const getExpenseById = async(id: number) => axios.put(`${ENDPOINT}/${id}`, await getRequestHeader());
+export async function getWatchlistItemById(id: number): Promise<WatchlistItem> {
+  const { data } = await axios.get(`${ENDPOINT}/${id}`, await getRequestHeader());
+  return data; 
+}
 
-export const createExpense = async(body: Expesne) => axios.post(`${ENDPOINT}`, body, await getRequestHeader());
+export async function createWatchlistItem(body: WatchlistItem): Promise<WatchlistItem> {
+  const { data } = await axios.post(`${ENDPOINT}`, body, await getRequestHeader());
+  return data; 
+}
 
-export const editExpenseById = async(id: number, body: Expesne) => axios.put(`${ENDPOINT}/${id}`, body, await getRequestHeader());
+export async function editWatchlistItemById(id: number, body: WatchlistItem): Promise<WatchlistItem> {
+  const { data } = await axios.put(`${ENDPOINT}/${id}`, body, await getRequestHeader());
+  return data; 
+}
 
-export const deleteExpenseById = async(id: number) => axios.delete(`${ENDPOINT}/${id}`, await getRequestHeader());
+export async function deleteWatchlistItemById(id: number): Promise<WatchlistItem> {
+  const { data } = await axios.delete(`${ENDPOINT}/${id}`, await getRequestHeader());
+  return data; 
+}

@@ -4,8 +4,18 @@ import type { User } from "@/models/models";
 
 const ENDPOINT = `${BASE_URL}/users`;
 
-export const getUserSettings = async() => axios.get(ENDPOINT, await getRequestHeader());
+export async function getUserSettings(): Promise<User> {
+  const { data } = await axios.get(ENDPOINT, await getRequestHeader());
+  return data;
+}
 
-export const editUserSettings = async(body: User) => axios.put(ENDPOINT, body, await getRequestHeader());
+export async function editUserSettings(body: User): Promise<User> {
+  const { data } = await axios.put(ENDPOINT, body, await getRequestHeader());
+  return data;
+}
 
-export const deleteUserSettings = async() => axios.delete(ENDPOINT, await getRequestHeader());
+export async function deleteUserSettings(): Promise<User> {
+  const { data } = await axios.delete(ENDPOINT, await getRequestHeader());
+  return data;
+}
+

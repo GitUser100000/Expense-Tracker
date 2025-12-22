@@ -27,7 +27,7 @@ export type Category =
   |  "DEBIT_CARD"
   |  "CASH"
 
-export type Expesne = {
+export type Expense = {
   name: string,
   price: number,
   occurance: Cadence,
@@ -35,4 +35,11 @@ export type Expesne = {
   nextChargeDate: string
   paymentType: PaymentType
   url?: string
+}
+
+export type WatchlistItem = {
+  name: string,
+  previous: number,
+  current: number,
+  markup: number
 }
