@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useFetch } from "./hooks/useFetch";
 import RouteProvider from "./routes/RouteProvider";
 import { getUserSettings } from "./api/users";
+import { Toaster } from "sonner";
 
 export default function App() {
   const { data, loading, error } = useFetch(getUserSettings);
@@ -33,5 +34,10 @@ export default function App() {
   }, [data, loading, error]);
 
   useTheme(appSettings.theme);
-  return <RouteProvider />;
+  return (
+    <>
+      <RouteProvider />
+      <Toaster position="top-center" />
+    </>
+  );
 }

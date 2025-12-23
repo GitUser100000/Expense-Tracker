@@ -1,4 +1,5 @@
 import { retrieveAccessToken } from "@/services/auth.service";
+import axios from "axios";
 
 export async function getRequestHeader() {
   try {
@@ -11,8 +12,21 @@ export async function getRequestHeader() {
     }
     return header;
   } catch (err) {
-    throw new Error("Something fucked up...")
+    throw err; 
   } 
 }
 
 export const BASE_URL = import.meta.env.VITE_API_BASE_URL; 
+
+export function normalizeAxiosError(err: unknown): never {
+  if (axios.isAxiosError(err)) {
+    const message =
+      err.response?.data?.error ||
+      err.response?.data?.message ||
+      "Request failed";
+
+    throw new Error(message);
+  }
+
+  throw err;
+}

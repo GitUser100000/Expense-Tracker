@@ -7,6 +7,7 @@ import WatchlistPage from "../pages/WatchlistPage";
 import SettingsPage from "../pages/SettingsPage";
 import ProtectedLayout from "./ProtectedLayout";
 import AuthRedirect from "@/components/AuthRedirect";
+import NotFoundPage from "@/pages/NotFoundPage";
 
 export default function RouteProvider() {
   return (
@@ -29,6 +30,7 @@ export default function RouteProvider() {
             {/* <Route path="/date-range" element={<DatePicker />} */}
           </Route>
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

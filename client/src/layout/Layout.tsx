@@ -1,5 +1,4 @@
 import { NavBar } from "@/components/NavBar";
-import { Toaster } from "sonner";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
@@ -11,7 +10,6 @@ export default function Layout() {
       <NavBar />
       <main>
         <Outlet />
-        <Toaster />
       </main>
     </>
   );

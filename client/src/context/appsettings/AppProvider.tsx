@@ -5,7 +5,6 @@ import {
   type Currency,
   type Theme,
   type DateCadence,
-  type Cadence,
 } from "../types";
 import { AppContext } from "./AppContext";
 import { addWeeks, addMonths, addYears } from "date-fns";

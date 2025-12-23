@@ -15,13 +15,15 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createNewUser } from "@/services/auth.service";
+import { editUserSettings } from "@/api/users";
 
 export default function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const navigate = useNavigate();
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
@@ -31,10 +33,17 @@ export default function RegisterForm({
       const email = formData.get("email") as string;
       const password = formData.get("password") as string;
       const user = await createNewUser(email, password);
-      await 
+      console.log(user);
+      await editUserSettings({
+        name,
+        email: user?.email,
+      });
+      navigate("/login");
     } catch (err) {
-      toast("A login error has occured", {
-        description: "please ensure your credentials are correct",
+      let errResult = "A login error has occured";
+      if (err instanceof Error) errResult = err.message;
+      toast.error("A login error has occured", {
+        description: errResult,
         action: {
           label: "close",
           onClick: () => console.log("close"),

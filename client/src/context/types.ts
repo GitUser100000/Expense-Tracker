@@ -41,6 +41,7 @@ export type AppContextValue = {
 
 export type User = {
   name: string,
+  email: string,
   theme: Theme,
   currency: Currency
 }
