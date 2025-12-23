@@ -1,4 +1,4 @@
-import { prisma } from "../database/prismaClient";
+import { prisma } from "../database/prismaClient.js";
 import { Request, Response } from "express";
 
 export async function getExpenses(req: Request, res: Response) {

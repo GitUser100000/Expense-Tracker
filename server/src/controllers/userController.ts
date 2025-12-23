@@ -1,4 +1,4 @@
-import { prisma } from "../database/prismaClient";
+import { prisma } from "../database/prismaClient.js";
 import { Request, Response } from "express";
 
 export async function getUserSettings(req: Request, res: Response) {
@@ -28,7 +28,6 @@ export async function editUserSettings(req: Request, res: Response) {
 
     const data : any = {}; 
 
-    if (newUserSettings.name !== undefined) data.name = newUserSettings.name;
     if (newUserSettings.theme !== undefined) data.theme = newUserSettings.theme; 
     if (newUserSettings.currency !== undefined) data.currency = newUserSettings.currency; 
 

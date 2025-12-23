@@ -37,7 +37,7 @@ export default function LoginForm({
       let errResult = "please ensure your credentials are correct";
       if (err instanceof Error) errResult = err.message;
       toast.error("A login error has occured", {
-        description: "please ensure your credentials are correct",
+        description: errResult,
         action: {
           label: "close",
           onClick: () => console.log("close"),

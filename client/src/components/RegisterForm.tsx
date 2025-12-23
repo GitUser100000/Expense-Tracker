@@ -17,7 +17,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { createNewUser } from "@/services/auth.service";
-import { editUserSettings } from "@/api/users";
 
 export default function RegisterForm({
   className,
@@ -32,12 +31,8 @@ export default function RegisterForm({
       const name = formData.get("name") as string;
       const email = formData.get("email") as string;
       const password = formData.get("password") as string;
-      const user = await createNewUser(email, password);
+      const user = await createNewUser(email, password, name);
       console.log(user);
-      await editUserSettings({
-        name,
-        email: user?.email,
-      });
       navigate("/login");
     } catch (err) {
       let errResult = "A login error has occured";

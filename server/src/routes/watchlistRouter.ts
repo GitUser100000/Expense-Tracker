@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getWatchlist, getWatchlistItemById, createWatchlistItemByUserId, editWatchlistItemById, deleteWatchlistItemById } from "../controllers/watchlistController";
+import { getWatchlist, getWatchlistItemById, createWatchlistItemByUserId, editWatchlistItemById, deleteWatchlistItemById } from "../controllers/watchlistController.js";
 
 export const watchlistRouter = Router(); 
 

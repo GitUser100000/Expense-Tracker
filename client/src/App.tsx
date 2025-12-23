@@ -33,6 +33,12 @@ export default function App() {
     setError(null);
   }, [data, loading, error]);
 
+  //   useEffect(() => {
+  //   supabase.auth.getSession().then(({ data }) => {
+  //     console.log(data.session); // should NOT be null after refresh
+  //   });
+  // }, []);
+
   useTheme(appSettings.theme);
   return (
     <>

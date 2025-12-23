@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { verifyToken } from "../database/supabaseAdmin";
+import { verifyToken } from "../database/supabaseAdmin.js";
 
 export async function auth(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization; 
