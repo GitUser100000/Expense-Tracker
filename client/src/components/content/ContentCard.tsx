@@ -1,4 +1,5 @@
 import React from "react";
+import { CardTitle } from "../ui/card";
 
 export default function ContentCard({
   children,
@@ -8,8 +9,10 @@ export default function ContentCard({
   title: string;
 }) {
   return (
-    <div className="flex-col w-[80%] mx-auto">
-      <h2 className="ml-0 pl-2 text-2xl font-sem">{title}</h2>
+    <div className="flex-col w-[90%] mx-auto">
+      <CardTitle className="ml-0 pl-2 text-2xl font-sem text-shadow-2xs">
+        {title}
+      </CardTitle>
       {children}
     </div>
   );

@@ -61,7 +61,7 @@ export default function TopExpense() {
           <div className="p-4">
             {mockExpenses.map((expense, index) => (
               <React.Fragment key={expense.id}>
-                <QuickExpense expense={expense} index={index} />
+                <QuickExpense expense={expense} index={index + 1} />
                 <Separator className="my-2" />
               </React.Fragment>
             ))}
