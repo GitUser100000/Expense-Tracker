@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, Equal } from "lucide-react";
 
 export const LARGE_ICON_SIZE = "h-10 w-10";
 
@@ -12,6 +12,12 @@ export function TrendingDownIcon({ size }: { size: "small" | "large" }) {
   let style;
   if (size === "large") style = LARGE_ICON_SIZE;
   return <TrendingDown className={`text-red-600 ${style}`} />;
+}
+
+export function EqualsIcon({ size }: { size: "small" | "large" }) {
+  let style;
+  if (size === "large") style = LARGE_ICON_SIZE;
+  return <Equal className={`text-blue-600 ${style}`} />;
 }
 
 export function SmallTrend({ percent }: { percent: number }) {

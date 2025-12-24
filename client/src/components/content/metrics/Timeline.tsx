@@ -34,9 +34,7 @@ export default function Timeline() {
   return (
     <Card className="col-span-2 h-full">
       <CardHeader>
-        <CardTitle className="ml-0 pl-2 text-2xl font-sem">
-          Line Chart - Linear
-        </CardTitle>
+        <CardTitle className="ml-0 pl-2 text-2xl font-sem">Timeline</CardTitle>
         <CardDescription className="pl-2">January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
@@ -71,7 +69,7 @@ export default function Timeline() {
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      <CardFooter className="flex-col gap-2 text-sm justify-center items-center">
         <div className="flex gap-2 leading-none font-medium">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
