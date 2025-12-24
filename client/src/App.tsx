@@ -5,7 +5,7 @@ import { useFetch } from "./hooks/useFetch";
 import RouteProvider from "./routes/RouteProvider";
 import { getUserSettings } from "./api/users";
 import { Toaster } from "sonner";
-import Footer from "./components/Footer";
+import Footer from "./components/layout/Footer";
 
 export default function App() {
   const { data, loading, error } = useFetch(getUserSettings);

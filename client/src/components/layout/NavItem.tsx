@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { navigationMenuTriggerStyle } from "./ui/navigation-menu";
+import { navigationMenuTriggerStyle } from "../ui/navigation-menu";
 
 type NavItemProps = {
   route: string;

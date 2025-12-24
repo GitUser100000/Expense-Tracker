@@ -6,7 +6,7 @@ import ExpensesPage from "../pages/ExpensesPage";
 import WatchlistPage from "../pages/WatchlistPage";
 import SettingsPage from "../pages/SettingsPage";
 import ProtectedLayout from "./ProtectedLayout";
-import AuthRedirect from "@/components/AuthRedirect";
+import AuthRedirect from "@/components/authentication/AuthRedirect";
 import NotFoundPage from "@/pages/NotFoundPage";
 
 export default function RouteProvider() {
