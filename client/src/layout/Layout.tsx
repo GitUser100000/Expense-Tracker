@@ -4,10 +4,10 @@ import { Card, CardTitle } from "@/components/ui/card";
 
 export default function Layout() {
   return (
-    <div className="mx-auto w-full rounded-none">
-      <Card className="w-full">
-        <CardTitle>
-          <h1>Expenses App</h1>
+    <div className="mx-auto w-full">
+      <Card className="w-full rounded-none">
+        <CardTitle className="w-full text-center">
+          <h1 className="justify-center">Expenses App</h1>
         </CardTitle>
         <NavBar />
       </Card>

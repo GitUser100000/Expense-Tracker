@@ -5,6 +5,7 @@ import { useFetch } from "./hooks/useFetch";
 import RouteProvider from "./routes/RouteProvider";
 import { getUserSettings } from "./api/users";
 import { Toaster } from "sonner";
+import Footer from "./components/Footer";
 
 export default function App() {
   const { data, loading, error } = useFetch(getUserSettings);
@@ -33,17 +34,14 @@ export default function App() {
     setError(null);
   }, [data, loading, error]);
 
-  //   useEffect(() => {
-  //   supabase.auth.getSession().then(({ data }) => {
-  //     console.log(data.session); // should NOT be null after refresh
-  //   });
-  // }, []);
-
   useTheme(appSettings.theme);
   return (
-    <>
-      <RouteProvider />
+    <div className="min-h-screen flex flex-col">
+      <main className="flex-1">
+        <RouteProvider />
+      </main>
       <Toaster position="top-center" />
-    </>
+      <Footer />
+    </div>
   );
 }

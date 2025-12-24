@@ -4,7 +4,8 @@ import DataProvider from "@/context/data/DataProvider";
 import Layout from "@/layout/Layout";
 
 export default function ProtectedLayout() {
-  const { user } = useAuthContext();
+  const { user, loading } = useAuthContext();
+  if (loading) return null;
   if (!user) return <Navigate to="/login" replace />;
   return (
     <DataProvider>

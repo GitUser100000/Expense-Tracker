@@ -1,53 +1,18 @@
-import { NavLink } from "react-router-dom"
-import { navigationMenuTriggerStyle } from "./ui/navigation-menu"
-import { SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal } from "lucide-react";
+import NavItem from "./NavItem";
 
 export function NavBar() {
   return (
-    <div className="">
-      <NavLink
-        to="/metrics"
-        className={({ isActive }) =>
-          navigationMenuTriggerStyle({
-            className: isActive ? "bg-accent text-accent-foreground" : ""
-          })
-        }
-      >
-        Metrics
-      </NavLink>
-      <NavLink
-        to="/expenses"
-        className={({ isActive }) =>
-          navigationMenuTriggerStyle({
-            className: isActive ? "bg-accent text-accent-foreground" : ""
-          })
-        }
-      >
-        Expenses
-      </NavLink>
-      <NavLink
-        to="/watchlist"
-        className={({ isActive }) =>
-          navigationMenuTriggerStyle({
-            className: isActive ? "bg-accent text-accent-foreground" : ""
-          })
-        }
-      >
-        Watchlist
-      </NavLink>
-      <NavLink
-        to="/settings"
-        className={({ isActive }) =>
-          navigationMenuTriggerStyle({
-            className: isActive ? "bg-accent text-accent-foreground" : ""
-          })
-        }
-      >
-        Settings
-      </NavLink>
-      <button><SlidersHorizontal /></button>
+    <div className="relative flex items-center">
+      <div className="absolute left-1/2 -translate-x-1/2 w-[35%] flex justify-center gap-5">
+        <NavItem title="Metrics" route="/metrics" />
+        <NavItem title="Expenses" route="/expenses" />
+        <NavItem title="Watchlist" route="/watchlist" />
+        <NavItem title="Settings" route="/settings" />
+      </div>
+      <button className="ml-auto cursor-pointer pr-5">
+        <SlidersHorizontal />
+      </button>
     </div>
-  )
+  );
 }
-
-
