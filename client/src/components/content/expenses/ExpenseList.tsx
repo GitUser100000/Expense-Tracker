@@ -34,6 +34,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { type Expense } from "@/context/types";
+import { Paginator } from "./Paginator";
 
 const mockExpenses: Expense[] = [
   {
@@ -249,7 +250,7 @@ export default function ExpenseList() {
   });
 
   return (
-    <div className="w-full">
+    <div className="flex flex-col">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter Names..."
@@ -286,7 +287,7 @@ export default function ExpenseList() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="overflow-hidden rounded-md border">
+      <div className="flex-1 overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -336,27 +337,18 @@ export default function ExpenseList() {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="space-x-2">
-          {/* add paginator */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+      <div className="grid grid-cols-[1fr_4fr_1fr] py-2 items-center">
+        <div className="text-muted-foreground text-sm whitespace-nowrap">
+          {table.getFilteredRowModel().rows.length} total items ({`${table.getPageCount()} pages`}).
         </div>
+        {/* add paginator */}
+        <Paginator
+          pageCount={table.getPageCount()}
+          forwardPage={() => table.nextPage()}
+          backPage={() => table.previousPage()}
+        />
       </div>
+      <div>{   }</div>
     </div>
   );
 }
