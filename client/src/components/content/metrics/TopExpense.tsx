@@ -51,6 +51,33 @@ const mockExpenses: Expense[] = [
     nextChargeDate: "1970-01-15T00:00:00Z",
     paymentType: "DEBIT_CARD",
   },
+  {
+    id: 5,
+    name: "Phone Plan",
+    price: 45.0,
+    occurance: "MONTHLY",
+    category: "UTILITIES",
+    nextChargeDate: "1970-01-15T00:00:00Z",
+    paymentType: "DEBIT_CARD",
+  },
+  {
+    id: 5,
+    name: "Phone Plan",
+    price: 45.0,
+    occurance: "MONTHLY",
+    category: "UTILITIES",
+    nextChargeDate: "1970-01-15T00:00:00Z",
+    paymentType: "DEBIT_CARD",
+  },
+  {
+    id: 5,
+    name: "Phone Plan",
+    price: 45.0,
+    occurance: "MONTHLY",
+    category: "UTILITIES",
+    nextChargeDate: "1970-01-15T00:00:00Z",
+    paymentType: "DEBIT_CARD",
+  },
 ];
 
 export default function TopExpense() {
@@ -58,7 +85,7 @@ export default function TopExpense() {
     <div>
       <ContentCard title="Top Expenses">
         <ScrollArea className="h-72 w-[90%] rounded-md border mx-auto mt-5">
-          <div className="p-4">
+          <div className="p-8">
             {mockExpenses.map((expense, index) => (
               <React.Fragment key={expense.id}>
                 <QuickExpense expense={expense} index={index + 1} />

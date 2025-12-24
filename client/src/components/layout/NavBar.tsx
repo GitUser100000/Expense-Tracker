@@ -1,5 +1,5 @@
-import { Clock } from "lucide-react";
 import NavItem from "./NavItem";
+import { CadenceSelect } from "../content/CadenceSelect";
 
 export function NavBar() {
   return (
@@ -11,7 +11,7 @@ export function NavBar() {
         <NavItem title="Settings" route="/settings" />
       </div>
       <button className="ml-auto cursor-pointer pr-20">
-        <Clock />
+        <CadenceSelect />
       </button>
     </div>
   );

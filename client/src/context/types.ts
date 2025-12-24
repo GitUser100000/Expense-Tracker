@@ -28,6 +28,7 @@ export type AppSettingsAction =
     cadence: DateCadence,
     startDate: Date,
 }; }
+| { type: "SET_CADENCE"; payload: DateCadence; }
 | { type: "SET_LOADING"; payload: boolean; }
 | { type: "SET_ERROR"; payload: string | null; }
 
@@ -35,6 +36,8 @@ export type AppContextValue = {
   appSettings: AppSettingState,
   setTheme: (theme: Theme) => void 
   setCurrency: (currency: Currency) => void
+  setDateRange: (cadence: DateCadence, startDate: Date) => void
+  setCadence: (cadence: DateCadence) => void
   setLoading: (isLoading: boolean) => void
   setError: (hasError: string | null) => void
 }

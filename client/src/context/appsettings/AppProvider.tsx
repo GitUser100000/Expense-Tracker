@@ -55,6 +55,15 @@ function appSettingsReducer(state: AppSettingState, action: AppSettingsAction) {
         },
       };
     }
+    case "SET_CADENCE": {
+      return {
+        ...state,
+        dateRange: {
+          ...state.dateRange,
+          cadence: action.payload,
+        },
+      };
+    }
     case "SET_LOADING": {
       return {
         ...state,
@@ -97,6 +106,13 @@ export default function AppProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const setCadence = (cadence: DateCadence) => {
+    dispatchAppSettings({
+      type: "SET_CADENCE",
+      payload: cadence,
+    });
+  };
+
   const setLoading = (isLoading: boolean) => {
     dispatchAppSettings({ type: "SET_LOADING", payload: isLoading });
   };
@@ -110,6 +126,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
     setTheme,
     setCurrency,
     setDateRange,
+    setCadence,
     setLoading,
     setError,
   };

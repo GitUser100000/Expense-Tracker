@@ -1,3 +1,4 @@
+import { DatePicker } from "@/components/content/DatePicker";
 import CategoryBreakdown from "@/components/content/metrics/CategoryBreakdown";
 import Timeline from "@/components/content/metrics/Timeline";
 import TopExpense from "@/components/content/metrics/TopExpense";
@@ -9,7 +10,16 @@ export default function MetricsPage() {
     <div>
       {/* TimeSpan */}
       <div className="text-center pt-10">
-        <h1 className="text-3xl">2025</h1>
+        {/* absolute left-1/2 -translate-x-1/2 w-[35%] flex justify-center gap-10" */}
+        <div className="flex items-center pt-10 px-16">
+          {/* Center title */}
+          <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl">2025</h1>
+
+          {/* Right-aligned DatePicker */}
+          <div className="ml-auto">
+            <DatePicker />
+          </div>
+        </div>
         <p className="font-light w-fit mx-auto px-2 mt-2 rounded-md">
           01/01/2025 - 29/11/2025
         </p>
