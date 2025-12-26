@@ -32,126 +32,38 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type Expense } from "@/context/types";
+import type { Expense, WatchlistItem } from "@/context/types";
 import { Paginator } from "../Paginator";
 
-const mockExpenses: Expense[] = [
-  {
-    id: 1,
-    name: "Netflix",
-    price: 16.99,
-    occurance: "MONTHLY", // from Cadence enum
-    category: "ENTERTAINMENT", // from Category enum
-    nextChargeDate: "2025-01-15",
-    paymentType: "DEBIT_CARD", // from PaymentType enum
-    url: "https://netflix.com",
-  },
-  {
-    id: 2,
-    name: "Spotify",
-    price: 11.99,
-    occurance: "MONTHLY",
-    category: "ENTERTAINMENT",
-    nextChargeDate: "2025-01-20",
-    paymentType: "DEBIT_CARD",
-  },
-  {
-    id: 3,
-    name: "Rent",
-    price: 1800,
-    occurance: "MONTHLY",
-    category: "RENT",
-    nextChargeDate: "2025-02-01",
-    paymentType: "CASH",
-  },
-  {
-    id: 4,
-    name: "Phone Plan",
-    price: 59,
-    occurance: "MONTHLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-28",
-    paymentType: "CASH",
-  },
-  {
-    id: 5,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 6,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 7,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 8,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 9,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 10,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 11,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
+export const watchlistMockData: WatchlistItem[] = [
+  { id: 1, name: "Netflix", previous: 14.99, current: 16.99, markup: 2.00 },
+  { id: 2, name: "Spotify", previous: 11.99, current: 13.99, markup: 2.00 },
+  { id: 3, name: "Amazon Prime", previous: 9.99, current: 10.99, markup: 1.00 },
+  { id: 4, name: "Apple Music", previous: 11.99, current: 12.99, markup: 1.00 },
+  { id: 5, name: "Adobe Creative Cloud", previous: 54.99, current: 59.99, markup: 5.00 },
+  { id: 6, name: "YouTube Premium", previous: 14.99, current: 16.99, markup: 2.00 },
+  { id: 7, name: "Dropbox Plus", previous: 11.99, current: 12.99, markup: 1.00 },
+  { id: 8, name: "GitHub Copilot", previous: 10.00, current: 19.00, markup: 9.00 },
+  { id: 9, name: "Notion Pro", previous: 8.00, current: 10.00, markup: 2.00 },
+  { id: 10, name: "ChatGPT Plus", previous: 20.00, current: 30.00, markup: 10.00 },
+  { id: 11, name: "Figma Professional", previous: 15.00, current: 18.00, markup: 3.00 },
 ];
 
-export const columns: ColumnDef<Expense>[] = [
+
+export const columns: ColumnDef<WatchlistItem>[] = [
   {
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
   },
   {
-    accessorKey: "price",
-    header: () => <div className="text-right">Price</div>,
+    accessorKey: "previous",
+    header: () => <div className="text-right">Previous Price</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("price"));
+      const amount = parseFloat(row.getValue("previous"));
 
       // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
+      const formatted = new Intl.NumberFormat("en-EN", {
         style: "currency",
         currency: "AUD",
       }).format(amount);
@@ -160,45 +72,39 @@ export const columns: ColumnDef<Expense>[] = [
     },
   },
   {
-    accessorKey: "occurance",
-    header: "Occurance",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("occurance")}</div>
-    ),
-  },
-  {
-    accessorKey: "category",
-    header: "Category",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("category")}</div>
-    ),
-  },
-  {
-    accessorKey: "nextChargeDate",
-    header: "Next Charge Date",
+    accessorKey: "current",
+    header: () => <div className="text-right">Current Price</div>,
     cell: ({ row }) => {
-      let date = new Date(row.getValue("nextChargeDate"));
-      let formattedDate = Intl.DateTimeFormat("en-GB").format(date);
-      return <div className="capitalize">{formattedDate}</div>;
+      const amount = parseFloat(row.getValue("current"));
+
+      // Format the amount as a dollar amount
+      const formatted = new Intl.NumberFormat("en-EN", {
+        style: "currency",
+        currency: "AUD",
+      }).format(amount);
+
+      return <div className="text-right font-medium">{formatted}</div>;
     },
   },
   {
-    accessorKey: "paymentType",
-    header: "Payment Type",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("paymentType")}</div>
-    ),
-  },
-  {
-    accessorKey: "url",
-    header: "Url",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("url")}</div>,
+    accessorKey: "markup",
+    header: () => <div className="text-right">Markup</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("current"));
+
+      // Format the amount as a dollar amount
+      const formatted = new Intl.NumberFormat("en-EN", {
+        style: "percent",
+      }).format(amount);
+
+      return <div className="text-right font-medium">{formatted}</div>;
+    },
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const expense = row.original;
+      const watchlistItem = row.original;
 
       return (
         <DropdownMenu>
@@ -220,7 +126,7 @@ export const columns: ColumnDef<Expense>[] = [
   },
 ];
 
-export default function ExpenseList() {
+export default function Watchlist() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -230,7 +136,7 @@ export default function ExpenseList() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: mockExpenses,
+    data: watchlistMockData,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

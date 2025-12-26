@@ -43,7 +43,7 @@ const mockWatchlist: WatchlistItem[] = [
   },
 ];
 
-export default function Watchlist() {
+export default function SmallWatchlist() {
   return (
     <div>
       <ContentCard title="Watchlist">

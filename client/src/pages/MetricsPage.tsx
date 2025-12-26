@@ -3,13 +3,13 @@ import CategoryBreakdown from "@/components/content/metrics/CategoryBreakdown";
 import Timeline from "@/components/content/metrics/Timeline";
 import TopExpense from "@/components/content/metrics/TopExpense";
 import Total from "@/components/content/metrics/Total";
-import Watchlist from "@/components/content/metrics/Watchlist";
+import Watchlist from "@/components/content/metrics/SmallWatchlist";
 import { Card } from "@/components/ui/card";
 export default function MetricsPage() {
   return (
     <div>
       {/* TimeSpan */}
-      <div className="text-center pt-10">
+      <div className="text-center align-middle">
         {/* absolute left-1/2 -translate-x-1/2 w-[35%] flex justify-center gap-10" */}
         <div className="flex items-center pt-10 px-16">
           {/* Center title */}
