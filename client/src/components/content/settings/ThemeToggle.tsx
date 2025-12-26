@@ -8,10 +8,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useAppContext } from "@/context/appsettings/AppContext"
+import type { Theme } from "@/context/types"
+import { editUserSettings } from "@/api/users"
 
 export default function ThemeToggle() {
   const { setTheme } = useAppContext()
 
+  function handleThemeToggle(theme: Theme) {
+    setTheme(theme);
+    editUserSettings({theme}).catch((err) => {
+      if (err instanceof Error) console.log(err.message);
+    });
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -22,10 +30,10 @@ export default function ThemeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+        <DropdownMenuItem onClick={() => handleThemeToggle("light")}>
           Light
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem onClick={() => handleThemeToggle("dark")}>
           Dark
         </DropdownMenuItem>
         {/* <DropdownMenuItem onClick={() => setTheme("system")}>

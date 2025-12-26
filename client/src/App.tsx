@@ -9,8 +9,7 @@ import Footer from "./components/layout/Footer";
 
 export default function App() {
   const { data, loading, error } = useFetch(getUserSettings);
-  const { appSettings, setTheme, setCurrency, setLoading, setError } =
-    useAppContext();
+  const { appSettings, setTheme, setCurrency, setLoading, setError } = useAppContext();
 
   useEffect(() => {
     if (loading) {

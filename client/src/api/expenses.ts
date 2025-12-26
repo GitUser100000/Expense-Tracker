@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL, getRequestHeader } from "./config"
-import type { Expense } from "@/models/models";
+import type { Expense } from "@/context/types";
 
 const ENDPOINT = `${BASE_URL}/expenses`;
 

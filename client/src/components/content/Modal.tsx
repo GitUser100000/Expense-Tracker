@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 
 type ModalProps = {
+  button: React.ReactElement
   children: React.ReactNode;
   title: string;
   description: string;
@@ -19,6 +20,7 @@ type ModalProps = {
 };
 
 export function Modal({
+  button,
   children,
   title,
   description,
@@ -32,7 +34,7 @@ export function Modal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Open Dialog</Button>
+        {button}
       </DialogTrigger>
       <DialogContent className="sm:max-w-106.25">
         <DialogHeader>

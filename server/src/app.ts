@@ -11,10 +11,14 @@ import { watchlistRouter } from "./routes/watchlistRouter.js";
 export const app = express(); 
 
 // middleware
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+app.use(express.json())
+app.use(bodyParser.urlencoded()); 
 app.use(auth);
 app.use(logger); 
-app.use(bodyParser.urlencoded()); 
 
 // routes
 app.use(userRouter);

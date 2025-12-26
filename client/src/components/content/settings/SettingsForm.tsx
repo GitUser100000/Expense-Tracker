@@ -9,7 +9,6 @@ import {
   FieldSeparator,
   FieldSet,
 } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
@@ -17,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 import ThemeToggle from "./ThemeToggle"
 
 export function SettingsForm() {

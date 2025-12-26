@@ -46,6 +46,7 @@ export async function editUserSettings(req: Request, res: Response) {
     return res.status(200).json(userSettings); 
 
   } catch (err) {
+    console.error(err);
     return res.status(500).json({ error: "there was an internal server error"}); 
   }
 }
