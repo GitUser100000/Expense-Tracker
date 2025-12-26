@@ -6,6 +6,7 @@ import RouteProvider from "./routes/RouteProvider";
 import { getUserSettings } from "./api/users";
 import { Toaster } from "sonner";
 import Footer from "./components/layout/Footer";
+import { useDateRange } from "./hooks/useDateRange";
 
 export default function App() {
   const { data, loading, error } = useFetch(getUserSettings);
@@ -13,7 +14,6 @@ export default function App() {
 
   useEffect(() => {
     if (loading) {
-      setLoading(true);
       setError(null);
       return;
     }
@@ -34,6 +34,8 @@ export default function App() {
   }, [data, loading, error]);
 
   useTheme(appSettings.theme);
+  useDateRange();
+
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">
