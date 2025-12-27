@@ -8,13 +8,13 @@ export const LARGE_ICON_SIZE = "h-10 w-10";
 export function TrendingUpIcon({ size }: { size: "small" | "large" }) {
   let style;
   if (size === "large") style = LARGE_ICON_SIZE;
-  return <TrendingUp className={`text-green-400 ${style}`} />;
+  return <TrendingUp className={`text-red-500 ${style}`} />;
 }
 
 export function TrendingDownIcon({ size }: { size: "small" | "large" }) {
   let style;
   if (size === "large") style = LARGE_ICON_SIZE;
-  return <TrendingDown className={`text-red-600 ${style}`} />;
+  return <TrendingDown className={`text-green-500 ${style}`} />;
 }
 
 export function EqualsIcon({ size }: { size: "small" | "large" }) {
@@ -24,10 +24,12 @@ export function EqualsIcon({ size }: { size: "small" | "large" }) {
 }
 
 export function SmallTrend({ percent }: { percent: number }) {
+  const Icon = percent > 0 ? TrendingUpIcon : percent < 0 ? TrendingDownIcon : EqualsIcon;
+  const color = percent > 0 ? "text-red-500" : percent < 0 ? "text-green-500" : "text-blue-500";
   return (
-    <span className="border flex justify-center rounded gap-0.5 font-bold">
-      <TrendingUpIcon size="small" />
-      {percent}%
+    <span className={`border flex justify-center rounded gap-0.5 font-bold ${color}`}>
+      <Icon size="small" />
+      {Math.abs(percent).toFixed(1)}%
     </span>
   );
 }

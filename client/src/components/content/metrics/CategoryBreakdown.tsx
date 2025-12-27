@@ -52,31 +52,35 @@ export default function CategoryBreakdown() {
 
   return (
     <ContentCard title="Category Breakdown">
-      <ScrollArea className="h-72 p-4">
-        <div className="space-y-3 pr-4">
-          {sortedCategories.map(({ category, total, percent }) => (
-            <div key={category} className="space-y-1">
-              <div className="flex justify-between text-sm">
-                <span className="flex items-center gap-2">
-                  <span className={`w-3 h-3 rounded-full ${categoryColors[category]}`} />
-                  {categoryLabels[category]}
-                </span>
-                <span className="text-muted-foreground">
-                  ${total.toFixed(2)} ({percent.toFixed(1)}%)
-                </span>
+      <ScrollArea className="h-72 px-4 py-2">
+        {sortedCategories.length === 0 ? (
+          <div className="h-full flex items-center justify-center">
+            <p className="text-muted-foreground">No expenses yet</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {sortedCategories.map(({ category, total, percent }) => (
+              <div key={category} className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="flex items-center gap-2">
+                    <span className={`w-2.5 h-2.5 rounded-full ${categoryColors[category]}`} />
+                    <span className="font-medium text-sm">{categoryLabels[category]}</span>
+                  </span>
+                  <div className="text-right">
+                    <span className="font-semibold text-sm">${total.toFixed(2)}</span>
+                    <span className="text-xs text-muted-foreground ml-2">{percent.toFixed(0)}%</span>
+                  </div>
+                </div>
+                <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                  <div 
+                    className={`h-full ${categoryColors[category]} rounded-full transition-all duration-500`}
+                    style={{ width: `${percent}%` }}
+                  />
+                </div>
               </div>
-              <div className="h-2 bg-muted rounded-full overflow-hidden">
-                <div 
-                  className={`h-full ${categoryColors[category]} transition-all`}
-                  style={{ width: `${percent}%` }}
-                />
-              </div>
-            </div>
-          ))}
-          {sortedCategories.length === 0 && (
-            <p className="text-muted-foreground text-center py-8">No expenses yet</p>
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </ScrollArea>
     </ContentCard>
   );
