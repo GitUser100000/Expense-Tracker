@@ -41,18 +41,17 @@ export async function getExpenseById(req: Request, res: Response) {
 
 export async function getExpenseTotal(req: Request, res: Response) {
   const userId = req.user!.id;
-  const { start, end } = req.query;
+  const { end } = req.query;
 
-  if (!start) {
-    return res.status(400).json({ error: "start date required" });
+  if (!end) {
+    return res.status(400).json({ error: "end date required" });
   }
 
   const total = await prisma.expense.aggregate({
     where: {
       userId,
       nextChargeDate: {
-        gte: new Date(start as string),
-        ...(end ? { lt: new Date(end as string) } : {}),
+        lte: new Date(end as string),
       },
     },
     _sum: {

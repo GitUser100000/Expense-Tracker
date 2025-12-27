@@ -19,7 +19,7 @@ export default function TopExpense() {
           <div className="p-8">
             {expenses.map((expense, index) => (
               <React.Fragment key={expense.id}>
-                <QuickExpense expense={expense} index={index + 1} percent={getExpensePercent(expenses, expense.id, cadence)}/>
+                <QuickExpense expense={expense} index={index + 1} percent={getExpensePercent(expenses, expense.id, cadence)} cadence={cadence}/>
                 <Separator className="my-2" />
               </React.Fragment>
             ))}

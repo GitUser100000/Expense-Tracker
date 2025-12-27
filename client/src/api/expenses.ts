@@ -19,7 +19,7 @@ export async function getUserExpensesSum(startDate: Date, cadence: DateCadence):
   try {
     const endDate = getEndDate(cadence, startDate);
     const { data } = await axios.get(
-      `${ENDPOINT}/total?start=${startDate.toISOString()}&end=${endDate?.toISOString()}`, 
+      `${ENDPOINT}/total?end=${endDate?.toISOString()}`, 
       await getRequestHeader()
     );
     return data.total ?? 0;
