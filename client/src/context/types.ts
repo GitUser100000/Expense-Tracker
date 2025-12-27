@@ -58,10 +58,13 @@ export type Cadence =
 
 export type Category = 
 |  "ENTERTAINMENT"
+|  "SUBSCRIPTIONS"
 |  "FOOD"
 |  "TRANSPORT"
 |  "RENT"
 |  "UTILITIES"
+|  "HEALTH"
+|  "SHOPPING"
 |  "OTHER"
 
 export type PaymentType = 
@@ -99,16 +102,21 @@ export type DataContextValue = {
   data: DataContextState,
   setExpenses: (updateExpenses: Expense[]) => void,
   addExpense: (newExpense: Expense) => void,
+  updateExpense: (expense: Expense) => void,
   removeExpense: (id: number) => void,
-  setWatchlist: (newExpenses: Expense[]) => void
-  addWatchlistItem: (newExpense: Expense) => void,
+  setWatchlist: (updatedWatchlist: WatchlistItem[]) => void,
+  addWatchlistItem: (newItem: WatchlistItem) => void,
+  updateWatchlistItem: (item: WatchlistItem) => void,
   removeWatchlistItem: (id: number) => void,
 }
 
 export type DataAction = 
-| { type: "SET_EXPESES"; payload: Expense[]}
-| { type: "ADD_EXPENSE"; payload: Expense}
-| { type: "REMOVE_EXPENSE"; payload: number}
-| { type: "SET_WATCHLIST"; payload: Expense[]}
-| { type: "ADD_WATCHLIST_ITEM"; payload: Expense}
-| { type: "REMOVE_WATCHLIST_ITEM"; payload: number}
+  | { type: "SET_EXPENSES"; payload: Expense[] }
+  | { type: "ADD_EXPENSE"; payload: Expense }
+  | { type: "UPDATE_EXPENSE"; payload: Expense }
+  | { type: "REMOVE_EXPENSE"; payload: number }
+  | { type: "SET_WATCHLIST"; payload: WatchlistItem[] }
+  | { type: "ADD_WATCHLIST_ITEM"; payload: WatchlistItem }
+  | { type: "UPDATE_WATCHLIST_ITEM"; payload: WatchlistItem }
+  | { type: "REMOVE_WATCHLIST_ITEM"; payload: number };
+

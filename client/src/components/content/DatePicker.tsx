@@ -48,7 +48,7 @@ export function DatePicker() {
             mode="single"
             selected={date}
             captionLayout="dropdown"
-            onSelect={() => handleDateSet}
+            onSelect={handleDateSet}
           />
         </PopoverContent>
       </Popover>

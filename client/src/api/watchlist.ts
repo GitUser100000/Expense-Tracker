@@ -1,10 +1,10 @@
 import axios from "axios";
 import { BASE_URL, getRequestHeader } from "./config"
-import type { WatchlistItem } from "@/models/models";
+import type { WatchlistItem } from "@/context/types";
 
 const ENDPOINT = `${BASE_URL}/watchlist`;
 
-export async function getUserWatchlist(): Promise<WatchlistItem> {
+export async function getUserWatchlist(): Promise<WatchlistItem[]> {
   const { data } = await axios.get(ENDPOINT, await getRequestHeader());
   return data; 
 }

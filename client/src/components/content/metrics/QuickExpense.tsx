@@ -1,12 +1,14 @@
 import type { Expense } from "@/context/types";
-import { SmallTrend } from "@/components/ui/icons";
+import { CategoryIcon, SmallTrend } from "@/components/ui/icons";
 
 export default function QuickExpense({
   expense,
   index,
+  percent
 }: {
   expense: Expense;
   index: number;
+  percent: number | undefined
 }) {
   return (
     <div className="grid grid-cols-[3fr_2fr] items-center">
@@ -15,7 +17,7 @@ export default function QuickExpense({
         <span className="truncate">{expense.name}</span>
         <span>(${expense.price}) </span>
       </span>
-      <SmallTrend percent={12} />
+      <CategoryIcon percent={percent} category={expense.category}/>
     </div>
   );
 }

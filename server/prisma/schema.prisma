@@ -69,10 +69,13 @@ enum Cadence {
 
 enum Category {
   ENTERTAINMENT
+  SUBSCRIPTIONS
   FOOD
   TRANSPORT
   RENT
   UTILITIES
+  HEALTH
+  SHOPPING
   OTHER
 }
 

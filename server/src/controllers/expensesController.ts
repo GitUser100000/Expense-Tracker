@@ -23,7 +23,6 @@ export async function getExpenses(req: Request, res: Response) {
 
 export async function getExpenseById(req: Request, res: Response) {
   try {
-    // const { id } = req.user; 
     const id = Number(req.params.id); 
     const userId = req.user!.id;
     if (!id) return res.status(404).json({ error: `no id supplied`})
@@ -33,11 +32,35 @@ export async function getExpenseById(req: Request, res: Response) {
         userId
       }      
     })
-    if (expense === null) return res.status(401).json({ error: `could not find expense with: ${id}`});
+    if (expense === null) return res.status(401).json({ error: `could not find expense with id: ${id}`});
     return res.status(200).json(expense); 
   } catch (err) {
     return res.status(500).json({ error: "there was an internal server error"}); 
   }
+}
+
+export async function getExpenseTotal(req: Request, res: Response) {
+  const userId = req.user!.id;
+  const { start, end } = req.query;
+
+  if (!start) {
+    return res.status(400).json({ error: "start date required" });
+  }
+
+  const total = await prisma.expense.aggregate({
+    where: {
+      userId,
+      nextChargeDate: {
+        gte: new Date(start as string),
+        ...(end ? { lt: new Date(end as string) } : {}),
+      },
+    },
+    _sum: {
+      price: true,
+    },
+  });
+
+  return res.json({ total: total._sum.price ?? 0 });
 }
 
 export async function createExpenseByUserId(req: Request, res: Response) {
@@ -63,6 +86,8 @@ export async function createExpenseByUserId(req: Request, res: Response) {
     })
     return res.status(200).json(expense); 
   } catch (err) {
+    if (err instanceof Error) console.log(err.message);
+    else console.log("Unkown Error");
     return res.status(500).json({ error: "there was an internal server error"}); 
   }
 }

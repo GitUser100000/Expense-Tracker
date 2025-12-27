@@ -1,10 +1,13 @@
 import { Router } from "express";
-import { getExpenses, getExpenseById, createExpenseByUserId, editExpenseById, deleteExpenseById } from "../controllers/expensesController.js";
+import { getExpenses, getExpenseById, getExpenseTotal, createExpenseByUserId, editExpenseById, deleteExpenseById } from "../controllers/expensesController.js";
 
 export const expenseRouter = Router(); 
 
 // get all expenses by user id (req.user.id from auth middleware)
 expenseRouter.get('/expenses', getExpenses)
+
+// get sum of expenses (req.user.id from auth middleware)
+expenseRouter.get('/expenses/total', getExpenseTotal)
 
 // get expense by id
 expenseRouter.get('/expenses/:id', getExpenseById);

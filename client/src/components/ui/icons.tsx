@@ -1,4 +1,7 @@
+import type { Category } from "@/context/types";
 import { TrendingUp, TrendingDown, Equal } from "lucide-react";
+import { categoryEmojis } from "@/helpers/categoryHelper";
+import { formatPercentage } from "@/helpers/costHelper";
 
 export const LARGE_ICON_SIZE = "h-10 w-10";
 
@@ -25,6 +28,16 @@ export function SmallTrend({ percent }: { percent: number }) {
     <span className="border flex justify-center rounded gap-0.5 font-bold">
       <TrendingUpIcon size="small" />
       {percent}%
+    </span>
+  );
+}
+
+export function CategoryIcon({ percent, category }: { percent: number | undefined, category: Category }) {
+  const emoji = categoryEmojis[category]; 
+  return (
+    <span className="border flex justify-center rounded gap-0.2 font-bold">
+      {emoji}
+      {formatPercentage(percent ?? 0)}%
     </span>
   );
 }

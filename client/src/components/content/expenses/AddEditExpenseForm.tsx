@@ -23,6 +23,7 @@ import type { AddEditFormOptions } from "./AddNewExpenseModal"
 import { createExpense, editExpenseById } from "@/api/expenses"
 import type { Cadence, Category, Expense, NewExpense, PaymentType } from "@/context/types"
 import { toast } from "sonner"
+import { useDataContext } from "@/context/data/DataContext"
 
 export type AddEditExpenseFormProps = {
   setOpen: (bool: boolean) => void,
@@ -37,7 +38,7 @@ export function AddEditExpenseForm( {expense, setOpen}: AddEditExpenseFormProps)
   const [nextChargeDate, setNextChargeDate] = React.useState<Date | undefined>(expense ? new Date(expense.nextChargeDate) : undefined)
   const [paymentType, setPaymentType] = React.useState<PaymentType | undefined>(expense ? expense.paymentType : undefined)
   const [url, setUrl] = React.useState<string | undefined>(expense?.url ?? undefined)
-
+  const { addExpense, updateExpense } = useDataContext(); 
   const formattedPrice =
   price !== undefined
     ? new Intl.NumberFormat("en-AU", {
@@ -64,11 +65,12 @@ export function AddEditExpenseForm( {expense, setOpen}: AddEditExpenseFormProps)
       paymentType !== undefined;
     if (expense) {
       try {
-      if (expense.id !== undefined)
-        await editExpenseById(expense.id, reqBody);
-        toast(`${expense.name} sucessfully ajusted`);
-        setOpen(false);
-        
+        if (expense.id !== undefined) {
+          const newExpense = await editExpenseById(expense.id, reqBody);
+          updateExpense(newExpense);
+          toast(`${expense.name} sucessfully ajusted`);
+          setOpen(false);
+        }    
       } catch(err) {
         if (err instanceof Error) toast.error(err.message);
         else toast.error(`Unkown Error: ${err}`);
@@ -88,7 +90,8 @@ export function AddEditExpenseForm( {expense, setOpen}: AddEditExpenseFormProps)
         url: url ?? null,
       };
       try {
-        await createExpense(postBody);
+        const newExpense = await createExpense(postBody);
+        addExpense(newExpense);
         toast(`${postBody.name} sucessfully added`);
         setOpen(false);
       } catch(err) {
@@ -136,10 +139,13 @@ export function AddEditExpenseForm( {expense, setOpen}: AddEditExpenseFormProps)
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="ENTERTAINMENT">Entertainment</SelectItem>
+                  <SelectItem value="SUBSCRIPTIONS">Subscriptions</SelectItem>
                   <SelectItem value="FOOD">Food</SelectItem>
                   <SelectItem value="TRANSPORT">Transport</SelectItem>
                   <SelectItem value="RENT">Rent</SelectItem>
                   <SelectItem value="UTILITIES">Utilities</SelectItem>
+                  <SelectItem value="HEALTH">Health</SelectItem>
+                  <SelectItem value="SHOPPING">Shopping</SelectItem>
                   <SelectItem value="OTHER">Other</SelectItem>
                 </SelectContent>
               </Select>

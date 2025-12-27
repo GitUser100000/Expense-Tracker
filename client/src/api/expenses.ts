@@ -1,12 +1,24 @@
 import axios from "axios";
 import { BASE_URL, getRequestHeader, normalizeAxiosError } from "./config"
-import type { Expense, NewExpense } from "@/context/types";
+import type { Cadence, DateCadence, Expense, NewExpense } from "@/context/types";
+import { getEndDate } from "@/helpers/dateHelper";
 
 const ENDPOINT = `${BASE_URL}/expenses`;
 
-export async function getUserExpenses(): Promise<Expense> {
+export async function getUserExpenses(): Promise<Expense[]> {
   try {
     const { data } = await axios.get(ENDPOINT, await getRequestHeader());
+    return data; 
+  } catch(err) {
+    console.log(err);
+    throw normalizeAxiosError(err); 
+  }
+}
+
+export async function getUserExpensesSum(startDate: Date, cadence: DateCadence): Promise<{ _sum: { price: number | null } }> {
+  try {
+    const endDate = getEndDate(cadence, startDate)
+    const { data } = await axios.get(`${ENDPOINT}/total?start=${startDate}&end=${endDate}`, await getRequestHeader());
     return data; 
   } catch(err) {
     console.log(err);
@@ -24,7 +36,7 @@ export async function getExpenseById(id: number): Promise<Expense> {
   }
 }
 
-export async function createExpense(body: NewExpense): Promise<NewExpense> {
+export async function createExpense(body: NewExpense): Promise<Expense> {
   try {
     const { data } = await axios.post(`${ENDPOINT}`, body, await getRequestHeader());
     return data;
