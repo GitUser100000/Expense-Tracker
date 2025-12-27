@@ -34,109 +34,9 @@ import {
 } from "@/components/ui/table";
 import { type Expense } from "@/context/types";
 import { Paginator } from "../Paginator";
-
-const mockExpenses: Expense[] = [
-  {
-    id: 1,
-    name: "Netflix",
-    price: 16.99,
-    occurance: "MONTHLY", // from Cadence enum
-    category: "ENTERTAINMENT", // from Category enum
-    nextChargeDate: "2025-01-15",
-    paymentType: "DEBIT_CARD", // from PaymentType enum
-    url: "https://netflix.com",
-  },
-  {
-    id: 2,
-    name: "Spotify",
-    price: 11.99,
-    occurance: "MONTHLY",
-    category: "ENTERTAINMENT",
-    nextChargeDate: "2025-01-20",
-    paymentType: "DEBIT_CARD",
-  },
-  {
-    id: 3,
-    name: "Rent",
-    price: 1800,
-    occurance: "MONTHLY",
-    category: "RENT",
-    nextChargeDate: "2025-02-01",
-    paymentType: "CASH",
-  },
-  {
-    id: 4,
-    name: "Phone Plan",
-    price: 59,
-    occurance: "MONTHLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-28",
-    paymentType: "CASH",
-  },
-  {
-    id: 5,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 6,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 7,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 8,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 9,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 10,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-  {
-    id: 11,
-    name: "Gym Membership",
-    price: 42,
-    occurance: "WEEKLY",
-    category: "UTILITIES",
-    nextChargeDate: "2025-01-08",
-    paymentType: "CREDIT_CARD",
-  },
-];
+import { useDataContext } from "@/context/data/DataContext";
+import { EditExpenseButton } from "./EditExpenseButton";
+import { DeleteExpenseButton } from "./DeleteExpenseButton";
 
 export const columns: ColumnDef<Expense>[] = [
   {
@@ -199,7 +99,6 @@ export const columns: ColumnDef<Expense>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const expense = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -208,11 +107,11 @@ export const columns: ColumnDef<Expense>[] = [
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" >
+          <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <EditExpenseButton expense={expense} />
+            <DeleteExpenseButton expense={expense} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -228,9 +127,10 @@ export default function ExpenseList() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const { data: {expenses} } = useDataContext();
 
   const table = useReactTable({
-    data: mockExpenses,
+    data: expenses,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

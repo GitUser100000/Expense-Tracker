@@ -117,7 +117,7 @@ export function AddEditExpenseForm( {expense, setOpen}: AddEditExpenseFormProps)
 
             <Field>
               <FieldLabel>Occurance</FieldLabel>
-              <Select required onValueChange={(value) => setOccurance(value as Cadence)}>
+              <Select required value={occurance} onValueChange={(value) => setOccurance(value as Cadence)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select occurance" />
                 </SelectTrigger>
@@ -133,7 +133,7 @@ export function AddEditExpenseForm( {expense, setOpen}: AddEditExpenseFormProps)
 
             <Field>
               <FieldLabel>Category</FieldLabel>
-              <Select required onValueChange={(value) => setCategory(value as Category)}>
+              <Select required value={category} onValueChange={(value) => setCategory(value as Category)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
@@ -160,7 +160,7 @@ export function AddEditExpenseForm( {expense, setOpen}: AddEditExpenseFormProps)
 
             <Field>
               <FieldLabel>Payment Type</FieldLabel>
-              <Select required onValueChange={(value) => setPaymentType(value as PaymentType)}>
+              <Select required value={paymentType} onValueChange={(value) => setPaymentType(value as PaymentType)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select payment type" />
                 </SelectTrigger>
