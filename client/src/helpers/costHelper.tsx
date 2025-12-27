@@ -24,11 +24,11 @@ export function LargeTrendIcon({percent}: {percent: number}) {
 }
 
 export function getExpensePercent(expenses: Expense[], id: number): number {
-  const total = expenses.reduce((sum, e) => sum + e.price, 0);
+  const total = expenses.reduce((sum, e) => sum + Number(e.price), 0);
   if (total === 0) return 0;
 
   const item = expenses.find(e => e.id === id);
   if (!item) return 0;
 
-  return (item.price / total) * 100;
+  return (Number(item.price) / total) * 100;
 }
