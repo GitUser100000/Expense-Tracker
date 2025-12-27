@@ -1,75 +1,83 @@
 import ContentCard from "../ContentCard";
-import { Pie, PieChart } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useDataContext } from "@/context/data/DataContext";
+import { useAppContext } from "@/context/appsettings/AppContext";
+import { normalisePriceOffCadence } from "@/helpers/costHelper";
+import type { Category } from "@/context/types";
 
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
-];
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "var(--chart-1)",
-  },
-  safari: {
-    label: "Safari",
-    color: "var(--chart-2)",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
-  },
-} satisfies ChartConfig;
+const categoryLabels: Record<Category, string> = {
+  ENTERTAINMENT: "Entertainment",
+  SUBSCRIPTIONS: "Subscriptions",
+  FOOD: "Food",
+  TRANSPORT: "Transport",
+  RENT: "Rent",
+  UTILITIES: "Utilities",
+  HEALTH: "Health",
+  SHOPPING: "Shopping",
+  OTHER: "Other",
+};
+
+const categoryColors: Record<Category, string> = {
+  ENTERTAINMENT: "bg-rose-500",
+  SUBSCRIPTIONS: "bg-blue-500",
+  FOOD: "bg-amber-500",
+  TRANSPORT: "bg-emerald-500",
+  RENT: "bg-purple-500",
+  UTILITIES: "bg-cyan-500",
+  HEALTH: "bg-pink-500",
+  SHOPPING: "bg-orange-500",
+  OTHER: "bg-slate-500",
+};
 
 export default function CategoryBreakdown() {
+  const { data: { expenses } } = useDataContext();
+  const { appSettings: { dateRange } } = useAppContext();
+  const { cadence } = dateRange;
+
+  const categoryTotals = expenses.reduce((acc, expense) => {
+    const normalized = normalisePriceOffCadence(expense, cadence);
+    acc[expense.category] = (acc[expense.category] || 0) + normalized;
+    return acc;
+  }, {} as Record<Category, number>);
+
+  const grandTotal = Object.values(categoryTotals).reduce((sum, val) => sum + val, 0);
+
+  const sortedCategories = Object.entries(categoryTotals)
+    .sort(([, a], [, b]) => b - a)
+    .map(([category, total]) => ({
+      category: category as Category,
+      total,
+      percent: grandTotal > 0 ? (total / grandTotal) * 100 : 0,
+    }));
+
   return (
     <ContentCard title="Category Breakdown">
-      <Card className="flex flex-col m-10">
-        <CardHeader className="items-center pb-0">
-          <CardTitle>Expenses</CardTitle>
-          <CardDescription>January - June 2024</CardDescription>
-        </CardHeader>
-        <CardContent className="flex-1 pb-0">
-          <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square max-h-75"
-          >
-            <PieChart>
-              <Pie data={chartData} dataKey="visitors" />
-              <ChartLegend
-                content={<ChartLegendContent nameKey="browser" />}
-                className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
-              />
-            </PieChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
+      <ScrollArea className="h-72 p-4">
+        <div className="space-y-3 pr-4">
+          {sortedCategories.map(({ category, total, percent }) => (
+            <div key={category} className="space-y-1">
+              <div className="flex justify-between text-sm">
+                <span className="flex items-center gap-2">
+                  <span className={`w-3 h-3 rounded-full ${categoryColors[category]}`} />
+                  {categoryLabels[category]}
+                </span>
+                <span className="text-muted-foreground">
+                  ${total.toFixed(2)} ({percent.toFixed(1)}%)
+                </span>
+              </div>
+              <div className="h-2 bg-muted rounded-full overflow-hidden">
+                <div 
+                  className={`h-full ${categoryColors[category]} transition-all`}
+                  style={{ width: `${percent}%` }}
+                />
+              </div>
+            </div>
+          ))}
+          {sortedCategories.length === 0 && (
+            <p className="text-muted-foreground text-center py-8">No expenses yet</p>
+          )}
+        </div>
+      </ScrollArea>
     </ContentCard>
   );
 }

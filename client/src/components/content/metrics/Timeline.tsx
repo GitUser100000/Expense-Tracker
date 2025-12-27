@@ -1,10 +1,8 @@
-import { TrendingUp } from "lucide-react";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -14,28 +12,48 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-export const description = "A linear line chart";
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
+import { useDataContext } from "@/context/data/DataContext";
+import { normalisePriceOffCadence } from "@/helpers/costHelper";
+
+const months = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
 ];
+
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  spending: {
+    label: "Spending",
     color: "var(--chart-1)",
   },
 } satisfies ChartConfig;
 
 export default function Timeline() {
+  const { data: { expenses } } = useDataContext();
+
+  const monthlyTotal = expenses.reduce((sum, e) => 
+    sum + Number(normalisePriceOffCadence(e, "MONTHLY")), 0
+  );
+
+  const chartData = months.map((month, index) => {
+    const monthExpenses = expenses.filter(e => {
+      const chargeDate = new Date(e.nextChargeDate);
+      return chargeDate.getMonth() <= index;
+    });
+    
+    const spending = monthExpenses.reduce((sum, e) => 
+      sum + Number(normalisePriceOffCadence(e, "MONTHLY")), 0
+    );
+    
+    return { month, spending: Number(spending.toFixed(2)) };
+  });
+
+  const currentYear = new Date().getFullYear();
+
   return (
     <Card className="col-span-2 h-full">
       <CardHeader>
         <CardTitle className="ml-0 pl-2 text-2xl font-sem">Timeline</CardTitle>
-        <CardDescription className="pl-2">January - June 2024</CardDescription>
+        <CardDescription className="pl-2">Projected monthly spending - {currentYear}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="aspect-21/7 w-full">
@@ -55,28 +73,25 @@ export default function Timeline() {
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 3)}
             />
+            <YAxis 
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(value) => `$${value}`}
+            />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent hideLabel formatter={(value) => `$${value}`} />}
             />
             <Line
-              dataKey="desktop"
-              type="linear"
-              stroke="var(--color-desktop)"
+              dataKey="spending"
+              type="monotone"
+              stroke="var(--color-spending)"
               strokeWidth={2}
-              dot={false}
+              dot={true}
             />
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm justify-center items-center">
-        <div className="flex gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   );
 }

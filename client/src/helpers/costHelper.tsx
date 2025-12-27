@@ -28,7 +28,7 @@ export function normalisePriceOffCadence(
   expense: Expense,
   cadence: DateCadence
 ): number {
-  const price = expense.price;
+  const price = Number(expense.price);
 
   switch (cadence) {
     case "DAILY": {
