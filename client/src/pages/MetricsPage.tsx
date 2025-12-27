@@ -11,7 +11,7 @@ export default function MetricsPage() {
       {/* TimeSpan */}
       <div className="text-center align-middle">
         {/* absolute left-1/2 -translate-x-1/2 w-[35%] flex justify-center gap-10" */}
-        <div className="flex items-center pt-10 px-16">
+        <div className="flex items-center pt-2 px-16">
           {/* Center title */}
           <h1 className="absolute left-1/2 -translate-x-1/2 text-3xl">2025</h1>
 

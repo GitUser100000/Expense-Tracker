@@ -6,10 +6,12 @@ import type { Expense } from "@/context/types";
 import QuickExpense from "./QuickExpense";
 import { useDataContext } from "@/context/data/DataContext";
 import { getExpensePercent } from "@/helpers/costHelper";
-
+import { useAppContext } from "@/context/appsettings/AppContext";
 
 export default function TopExpense() {
   const { data: {expenses} } = useDataContext(); 
+  const { appSettings: { dateRange } } = useAppContext(); 
+  const { cadence } = dateRange;
   return (
     <div>
       <ContentCard title="Top Expenses">
@@ -17,7 +19,7 @@ export default function TopExpense() {
           <div className="p-8">
             {expenses.map((expense, index) => (
               <React.Fragment key={expense.id}>
-                <QuickExpense expense={expense} index={index + 1} percent={getExpensePercent(expenses, expense.id)}/>
+                <QuickExpense expense={expense} index={index + 1} percent={getExpensePercent(expenses, expense.id, cadence)}/>
                 <Separator className="my-2" />
               </React.Fragment>
             ))}

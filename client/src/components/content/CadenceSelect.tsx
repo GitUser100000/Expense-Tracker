@@ -14,7 +14,6 @@ export function CadenceSelect() {
   const { appSettings: {dateRange}, setCadence } = useAppContext();
   function handleSelect(value: DateCadence) {
     setCadence(value);
-    console.log(value);
   }
   return (
     <Select onValueChange={handleSelect} value={`${dateRange.cadence}`}>
@@ -26,7 +25,6 @@ export function CadenceSelect() {
           <SelectLabel>Time Window</SelectLabel>
           <SelectItem value="DAILY">Day</SelectItem>
           <SelectItem value="WEEKLY">Week</SelectItem>
-          <SelectItem value="FORTNIGHTLY">Fortnight</SelectItem>
           <SelectItem value="MONTHLY">Month</SelectItem>
           <SelectItem value="YEARLY">Year</SelectItem>
         </SelectGroup>

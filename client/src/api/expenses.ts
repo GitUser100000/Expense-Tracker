@@ -15,14 +15,17 @@ export async function getUserExpenses(): Promise<Expense[]> {
   }
 }
 
-export async function getUserExpensesSum(startDate: Date, cadence: DateCadence): Promise<{ _sum: { price: number | null } }> {
+export async function getUserExpensesSum(startDate: Date, cadence: DateCadence): Promise<number> {
   try {
-    const endDate = getEndDate(cadence, startDate)
-    const { data } = await axios.get(`${ENDPOINT}/total?start=${startDate}&end=${endDate}`, await getRequestHeader());
-    return data; 
+    const endDate = getEndDate(cadence, startDate);
+    const { data } = await axios.get(
+      `${ENDPOINT}/total?start=${startDate.toISOString()}&end=${endDate?.toISOString()}`, 
+      await getRequestHeader()
+    );
+    return data.total ?? 0;
   } catch(err) {
     console.log(err);
-    throw normalizeAxiosError(err); 
+    throw normalizeAxiosError(err);
   }
 }
 

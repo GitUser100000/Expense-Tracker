@@ -2,7 +2,7 @@ import { addDays, addWeeks, addMonths, addYears } from "date-fns";
 import { type DateCadence } from "@/context/types";
 
 export function getEndDate(cadence: DateCadence, startDate: Date): Date | undefined {
-  if (cadence === "DAILY") return startDate;
+  if (cadence === "DAILY") return addDays(startDate, 1);
   if (cadence === "WEEKLY") return addWeeks(startDate, 1);
   if (cadence === "MONTHLY") return addMonths(startDate, 1);
   if (cadence === "YEARLY") return addYears(startDate, 1);
