@@ -12,8 +12,7 @@ export default function TopExpense() {
 
   const sortedExpenses = [...expenses]
     .map(e => ({ expense: e, percent: getExpensePercent(expenses, e.id, cadence) }))
-    .sort((a, b) => b.percent - a.percent)
-    .slice(0, 5);
+    .sort((a, b) => b.percent - a.percent);
 
   return (
     <ContentCard title="Top Expenses">
