@@ -29,15 +29,12 @@ const chartConfig = {
 
 export default function Timeline() {
   const { data: { expenses } } = useDataContext();
-
-  const monthlyTotal = expenses.reduce((sum, e) => 
-    sum + Number(normalisePriceOffCadence(e, "MONTHLY")), 0
-  );
+  const currentYear = new Date().getFullYear();
 
   const chartData = months.map((month, index) => {
     const monthExpenses = expenses.filter(e => {
       const chargeDate = new Date(e.nextChargeDate);
-      return chargeDate.getMonth() <= index;
+      return chargeDate.getFullYear() === currentYear && chargeDate.getMonth() <= index;
     });
     
     const spending = monthExpenses.reduce((sum, e) => 
@@ -46,8 +43,6 @@ export default function Timeline() {
     
     return { month, spending: Number(spending.toFixed(2)) };
   });
-
-  const currentYear = new Date().getFullYear();
 
   return (
     <Card className="col-span-2 h-full">
