@@ -10,9 +10,9 @@ export function NavBar() {
         <NavItem title="Watchlist" route="/watchlist" />
         <NavItem title="Settings" route="/settings" />
       </div>
-      <button className="ml-auto cursor-pointer pr-20">
+      <div className="ml-auto cursor-pointer pr-20">
         <CadenceSelect />
-      </button>
+      </div>
     </div>
   );
 }

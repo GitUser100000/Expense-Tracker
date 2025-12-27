@@ -11,14 +11,15 @@ import { useAppContext } from "@/context/appsettings/AppContext";
 import type { DateCadence } from "@/context/types";
 
 export function CadenceSelect() {
-  const { setCadence } = useAppContext();
+  const { appSettings: {dateRange}, setCadence } = useAppContext();
   function handleSelect(value: DateCadence) {
     setCadence(value);
+    console.log(value);
   }
   return (
-    <Select onValueChange={handleSelect}>
+    <Select onValueChange={handleSelect} value={`${dateRange.cadence}`}>
       <SelectTrigger className="`w-45">
-        <SelectValue placeholder="Select a time window" />
+        <SelectValue placeholder="Select a time window"/>
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>

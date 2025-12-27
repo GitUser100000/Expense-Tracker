@@ -1,17 +1,19 @@
 import { useAppContext } from "@/context/appsettings/AppContext";
 import type { DateCadence } from "@/context/types";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export function useDateRange() {
   const { appSettings, setDateRange } = useAppContext();
   const { dateRange } = appSettings; 
+  const hasHydrated = useRef(false);
+
   useEffect(() => {
+    if (hasHydrated.current) return;
+    hasHydrated.current = true;
     const cadence = localStorage.getItem("cadence");
     const startDate = localStorage.getItem("startDate");
-    if (cadence && startDate) {
-      // setCadence(cadence as DateCadence); pointless
-      setDateRange(cadence as DateCadence, new Date(startDate))
-    }
+    if (!cadence || !startDate) return;
+    setDateRange(cadence as DateCadence, new Date(startDate))
   }, [])
 
   useEffect(() => {

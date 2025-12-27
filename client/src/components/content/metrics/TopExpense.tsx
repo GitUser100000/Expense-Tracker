@@ -52,7 +52,7 @@ const mockExpenses: Expense[] = [
     paymentType: "DEBIT_CARD",
   },
   {
-    id: 5,
+    id: 6,
     name: "Phone Plan",
     price: 45.0,
     occurance: "MONTHLY",
@@ -61,7 +61,7 @@ const mockExpenses: Expense[] = [
     paymentType: "DEBIT_CARD",
   },
   {
-    id: 5,
+    id: 7,
     name: "Phone Plan",
     price: 45.0,
     occurance: "MONTHLY",
@@ -70,7 +70,7 @@ const mockExpenses: Expense[] = [
     paymentType: "DEBIT_CARD",
   },
   {
-    id: 5,
+    id: 8,
     name: "Phone Plan",
     price: 45.0,
     occurance: "MONTHLY",

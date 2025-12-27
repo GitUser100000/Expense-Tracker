@@ -13,7 +13,7 @@ import { useAppContext } from "@/context/appsettings/AppContext";
 
 export function DatePicker() {
   const [open, setOpen] = React.useState(false);
-  const [date, setDate] = React.useState<Date | undefined>(undefined);
+  // const [date, setDate] = React.useState<Date | undefined>(undefined);
   const {
     appSettings: { dateRange },
     setDateRange,
@@ -22,14 +22,14 @@ export function DatePicker() {
 
   function handleDateSet(selected: Date | undefined) {
     if (!selected) return;
-    setDate(selected);
+    setDateRange(dateRange.cadence, selected);
     setDateRange(cadence, selected);
     setOpen(false);
   }
 
   return (
     <div className="flex flex-col gap-3 mr-5">
-      <Label htmlFor="date" className="px-1 justify-center">
+      <Label htmlFor="date" className="px-1 justify-center"> 
         Start Date
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
@@ -39,16 +39,16 @@ export function DatePicker() {
             id="date"
             className="w-48 justify-between font-normal"
           >
-            {date ? date.toLocaleDateString() : "Select date"}
+            {dateRange.startDate ? dateRange.startDate.toLocaleDateString() : "Select date"}
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto overflow-hidden p-0" align="center">
           <Calendar
             mode="single"
-            selected={date}
+            selected={dateRange.startDate}
             captionLayout="dropdown"
-            onSelect={() => handleDateSet}
+            onSelect={handleDateSet}
           />
         </PopoverContent>
       </Popover>
