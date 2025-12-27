@@ -30,6 +30,8 @@ export function FormDatePicker({ date, setDate }: {date: Date | undefined, setDa
             mode="single"
             selected={date}
             captionLayout="dropdown"
+            startMonth={new Date(2020, 0)}
+            endMonth={new Date(2030, 11)}
             onSelect={(date) => {
               setDate(date)
               setOpen(false)
