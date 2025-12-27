@@ -88,10 +88,12 @@ export type NewExpense = Omit<Expense, "id">;
 export type WatchlistItem = {
   id: number,
   name: string,
-  previous: number,
-  current: number,
-  markup: number
+  url: string | null,
+  previous: number | null,
+  current: number | null,
 }
+
+export type NewWatchlistItem = Omit<WatchlistItem, "id" | "previous" | "current">
 
 export type DataContextState = {
   expenses: Expense[],

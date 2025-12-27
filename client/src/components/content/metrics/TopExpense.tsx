@@ -17,6 +17,9 @@ export default function TopExpense() {
       <ContentCard title="Top Expenses">
         <ScrollArea className="h-72 w-[90%] rounded-md border mx-auto mt-5">
           <div className="p-8">
+            {expenses.length === 0 && (
+              <p className="text-muted-foreground text-center py-8">No expenses yet</p>
+            )}
             {expenses.map((expense, index) => (
               <React.Fragment key={expense.id}>
                 <QuickExpense expense={expense} index={index + 1} percent={getExpensePercent(expenses, expense.id, cadence)} cadence={cadence}/>

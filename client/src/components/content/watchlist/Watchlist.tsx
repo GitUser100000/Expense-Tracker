@@ -18,7 +18,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -32,23 +31,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { Expense, WatchlistItem } from "@/context/types";
+import type { WatchlistItem } from "@/context/types";
 import { Paginator } from "../Paginator";
-
-export const watchlistMockData: WatchlistItem[] = [
-  { id: 1, name: "Netflix", previous: 14.99, current: 16.99, markup: 2.00 },
-  { id: 2, name: "Spotify", previous: 11.99, current: 13.99, markup: 2.00 },
-  { id: 3, name: "Amazon Prime", previous: 9.99, current: 10.99, markup: 1.00 },
-  { id: 4, name: "Apple Music", previous: 11.99, current: 12.99, markup: 1.00 },
-  { id: 5, name: "Adobe Creative Cloud", previous: 54.99, current: 59.99, markup: 5.00 },
-  { id: 6, name: "YouTube Premium", previous: 14.99, current: 16.99, markup: 2.00 },
-  { id: 7, name: "Dropbox Plus", previous: 11.99, current: 12.99, markup: 1.00 },
-  { id: 8, name: "GitHub Copilot", previous: 10.00, current: 19.00, markup: 9.00 },
-  { id: 9, name: "Notion Pro", previous: 8.00, current: 10.00, markup: 2.00 },
-  { id: 10, name: "ChatGPT Plus", previous: 20.00, current: 30.00, markup: 10.00 },
-  { id: 11, name: "Figma Professional", previous: 15.00, current: 18.00, markup: 3.00 },
-];
-
+import { EditWatchlistButton } from "./EditWatchlistButton";
+import { DeleteWatchlistButton } from "./DeleteWatchlistButton";
+import { useDataContext } from "@/context/data/DataContext";
 
 export const columns: ColumnDef<WatchlistItem>[] = [
   {
@@ -57,47 +44,59 @@ export const columns: ColumnDef<WatchlistItem>[] = [
     cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
   },
   {
-    accessorKey: "previous",
-    header: () => <div className="text-right">Previous Price</div>,
+    accessorKey: "url",
+    header: "URL",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("previous"));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-EN", {
+      const url = row.getValue("url") as string | null;
+      if (!url) return <span className="text-muted-foreground">—</span>;
+      return (
+        <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline truncate max-w-[200px] block">
+          {new URL(url).hostname}
+        </a>
+      );
+    },
+  },
+  {
+    accessorKey: "previous",
+    header: () => <div className="text-right">Previous</div>,
+    cell: ({ row }) => {
+      const amount = row.getValue("previous") as number | null;
+      if (amount === null) return <div className="text-right text-muted-foreground">—</div>;
+      const formatted = new Intl.NumberFormat("en-AU", {
         style: "currency",
         currency: "AUD",
       }).format(amount);
-
       return <div className="text-right font-medium">{formatted}</div>;
     },
   },
   {
     accessorKey: "current",
-    header: () => <div className="text-right">Current Price</div>,
+    header: () => <div className="text-right">Current</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("current"));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-EN", {
+      const amount = row.getValue("current") as number | null;
+      if (amount === null) return <div className="text-right text-muted-foreground">—</div>;
+      const formatted = new Intl.NumberFormat("en-AU", {
         style: "currency",
         currency: "AUD",
       }).format(amount);
-
       return <div className="text-right font-medium">{formatted}</div>;
     },
   },
   {
-    accessorKey: "markup",
-    header: () => <div className="text-right">Markup</div>,
+    id: "change",
+    header: () => <div className="text-right">Change</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("current"));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-EN", {
-        style: "percent",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
+      const previous = row.original.previous;
+      const current = row.original.current;
+      if (previous === null || current === null) return <div className="text-right text-muted-foreground">—</div>;
+      const diff = current - previous;
+      const percent = previous > 0 ? (diff / previous) * 100 : 0;
+      const color = diff > 0 ? "text-red-500" : diff < 0 ? "text-green-500" : "";
+      return (
+        <div className={`text-right font-medium ${color}`}>
+          {diff > 0 ? "+" : ""}{percent.toFixed(1)}%
+        </div>
+      );
     },
   },
   {
@@ -114,11 +113,11 @@ export const columns: ColumnDef<WatchlistItem>[] = [
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" >
+          <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <EditWatchlistButton watchlistItem={watchlistItem} />
+            <DeleteWatchlistButton watchlistItem={watchlistItem} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -127,6 +126,7 @@ export const columns: ColumnDef<WatchlistItem>[] = [
 ];
 
 export default function Watchlist() {
+  const { data: { watchlist } } = useDataContext();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -136,7 +136,7 @@ export default function Watchlist() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: watchlistMockData,
+    data: watchlist,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

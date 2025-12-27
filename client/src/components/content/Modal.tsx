@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 
 type ModalProps = {
-  button: React.ReactElement
+  button?: React.ReactElement
   children: React.ReactNode;
   title: string;
   description: string;
@@ -28,16 +27,13 @@ export function Modal({
   open,
   setOpen,
 }: ModalProps) {
-  // const [open, setOpen] = useState(false);
-  // function onSave() {
-  //   handleSave();
-  //   setOpen(false);
-  // }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {button}
-      </DialogTrigger>
+      {button && (
+        <DialogTrigger asChild>
+          {button}
+        </DialogTrigger>
+      )}
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

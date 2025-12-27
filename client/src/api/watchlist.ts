@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL, getRequestHeader } from "./config"
-import type { WatchlistItem } from "@/context/types";
+import type { NewWatchlistItem, WatchlistItem } from "@/context/types";
 
 const ENDPOINT = `${BASE_URL}/watchlist`;
 
@@ -14,12 +14,12 @@ export async function getWatchlistItemById(id: number): Promise<WatchlistItem> {
   return data; 
 }
 
-export async function createWatchlistItem(body: WatchlistItem): Promise<WatchlistItem> {
+export async function createWatchlistItem(body: NewWatchlistItem): Promise<WatchlistItem> {
   const { data } = await axios.post(`${ENDPOINT}`, body, await getRequestHeader());
   return data; 
 }
 
-export async function editWatchlistItemById(id: number, body: WatchlistItem): Promise<WatchlistItem> {
+export async function editWatchlistItemById(id: number, body: NewWatchlistItem): Promise<WatchlistItem> {
   const { data } = await axios.put(`${ENDPOINT}/${id}`, body, await getRequestHeader());
   return data; 
 }
