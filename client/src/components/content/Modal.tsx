@@ -16,7 +16,8 @@ type ModalProps = {
   children: React.ReactNode;
   title: string;
   description: string;
-  handleSave: () => void;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  open: boolean
 };
 
 export function Modal({
@@ -24,32 +25,33 @@ export function Modal({
   children,
   title,
   description,
-  handleSave,
+  open,
+  setOpen,
 }: ModalProps) {
-  const [open, setOpen] = useState(false);
-  function onSave() {
-    handleSave();
-    setOpen(false);
-  }
+  // const [open, setOpen] = useState(false);
+  // function onSave() {
+  //   handleSave();
+  //   setOpen(false);
+  // }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {button}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-106.25">
+      <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         {children}
-        <DialogFooter>
+        {/* <DialogFooter>
           <DialogClose asChild>
             <Button variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
           </DialogClose>
           <Button onClick={onSave}>Save changes</Button>
-        </DialogFooter>
+        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );

@@ -77,8 +77,10 @@ export type Expense = {
   category: Category,
   nextChargeDate: string
   paymentType: PaymentType
-  url?: string
+  url: string | null
 }
+export type NewExpense = Omit<Expense, "id">;
+
 
 export type WatchlistItem = {
   id: number,
