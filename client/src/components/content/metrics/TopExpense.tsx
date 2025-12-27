@@ -12,17 +12,22 @@ export default function TopExpense() {
   const { data: {expenses} } = useDataContext(); 
   const { appSettings: { dateRange } } = useAppContext(); 
   const { cadence } = dateRange;
+
+  const sortedExpenses = [...expenses]
+    .map(e => ({ expense: e, percent: getExpensePercent(expenses, e.id, cadence) }))
+    .sort((a, b) => b.percent - a.percent);
+
   return (
     <div>
       <ContentCard title="Top Expenses">
         <ScrollArea className="h-72 w-[90%] rounded-md border mx-auto mt-5">
           <div className="p-8">
-            {expenses.length === 0 && (
+            {sortedExpenses.length === 0 && (
               <p className="text-muted-foreground text-center py-8">No expenses yet</p>
             )}
-            {expenses.map((expense, index) => (
+            {sortedExpenses.map(({ expense, percent }, index) => (
               <React.Fragment key={expense.id}>
-                <QuickExpense expense={expense} index={index + 1} percent={getExpensePercent(expenses, expense.id, cadence)} cadence={cadence}/>
+                <QuickExpense expense={expense} index={index + 1} percent={percent} cadence={cadence}/>
                 <Separator className="my-2" />
               </React.Fragment>
             ))}
